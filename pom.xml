@@ -5,12 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.harmelodic</groupId>
-    <artifactId>init-microservice</artifactId>
+    <artifactId>blog</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
     <properties>
+        <!-- Custom properties -->
         <image.repository>${project.artifactId}</image.repository>
         <image.tag>${maven.build.timestamp}</image.tag>
+
+        <!-- Dependency / Plugin properties -->
         <java.version>18</java.version>
         <logback.contrib.version>0.1.5</logback.contrib.version>
         <maven.build.timestamp.format>yyyy-MM-dd_HH.mm.ss</maven.build.timestamp.format>
@@ -37,32 +40,6 @@
                 <type>pom</type>
                 <scope>import</scope>
                 <!-- Bill of Materials for managing JUnit dependencies -->
-            </dependency>
-            <dependency>
-                <groupId>au.com.dius.pact.consumer</groupId>
-                <artifactId>junit5</artifactId>
-                <version>4.3.12</version>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
-                <!-- Required for PACT Contract testing -->
-            </dependency>
-            <dependency>
-                <groupId>au.com.dius.pact.provider</groupId>
-                <artifactId>junit5spring</artifactId>
-                <version>4.3.12</version>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
-                <!-- Required for PACT Provider testing -->
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -138,18 +115,6 @@
             <!-- Required for SpringExtension testing -->
         </dependency>
         <dependency>
-            <groupId>au.com.dius.pact.consumer</groupId>
-            <artifactId>junit5</artifactId>
-            <scope>test</scope>
-            <!-- Required for PACT Contract testing -->
-        </dependency>
-        <dependency>
-            <groupId>au.com.dius.pact.provider</groupId>
-            <artifactId>junit5spring</artifactId>
-            <scope>test</scope>
-            <!-- Required for PACT Provider testing -->
-        </dependency>
-        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>
@@ -158,17 +123,6 @@
     </dependencies>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <!-- Required for publishing PACTs -->
-                    <groupId>au.com.dius.pact.provider</groupId>
-                    <artifactId>maven</artifactId>
-                    <version>4.3.12</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
 
             <plugin>
@@ -176,28 +130,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
-                <configuration>
-                    <systemProperties>
-                        <pact_do_not_track>true</pact_do_not_track>
-                    </systemProperties>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <!-- Required for publishing PACTs -->
-                <groupId>au.com.dius.pact.provider</groupId>
-                <artifactId>maven</artifactId>
-                <executions>
-                    <execution>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>publish</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <projectVersion>${image.tag}</projectVersion>
-                </configuration>
             </plugin>
 
             <plugin>
@@ -226,13 +158,13 @@
                             <goal>dockerBuild</goal>
                         </goals>
                     </execution>
-<!--                    <execution>-->
-<!--                        <id>deploy</id>-->
-<!--                        <phase>deploy</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>build</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
+                    <execution>
+                        <id>deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
 

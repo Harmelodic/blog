@@ -1,9 +1,5 @@
 spring:
   application:
-    name: init-microservice
+    name: blog
   flyway:
     enabled: true
-app:
-  customer:
-    client:
-      baseUrl: http://customer-api

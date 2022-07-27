@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: init-microservice
+  name: blog
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: init-microservice
+      app: blog
   template:
     metadata:
       labels:
-        app: init-microservice
+        app: blog
     spec:
-      serviceAccountName: init-microservice
+      serviceAccountName: blog
       containers:
-        - name: init-microservice
-          image: init-microservice:v1.0.0
+        - name: blog
+          image: blog:v1.0.0
           imagePullPolicy: Always
           ports:
             - name: http

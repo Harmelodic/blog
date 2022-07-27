@@ -14,7 +14,4 @@ jobs:
         with:
           distribution: temurin
           java-version: 18
-      - run: |-
-          mvn verify \
-          -Dpactbroker.url=https://harmelodic.pactflow.io \
-          -Dpactbroker.auth.token=${{ secrets.PACT_BROKER_TOKEN }}
+      - run: mvn verify

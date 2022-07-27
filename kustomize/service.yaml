@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: init-microservice
+  name: blog
 spec:
   type: ClusterIP
   selector:
-    app: init-microservice
+    app: blog
   sessionAffinity: None
   ports:
     - name: http

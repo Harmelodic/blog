@@ -1,4 +1,4 @@
-package com.harmelodic.init.microservice;
+package com.harmelodic.blog;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
