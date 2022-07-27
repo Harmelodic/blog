@@ -15,7 +15,7 @@ spec:
       serviceAccountName: blog
       containers:
         - name: blog
-          image: "europe-north1-docker.pkg.dev/personal-artifacts-353012/harmelodic/blog:v0"
+          image: "europe-north1-docker.pkg.dev/personal-artifacts-353012/harmelodic/blog:latest"
           imagePullPolicy: Always
           ports:
             - name: http
