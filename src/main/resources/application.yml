@@ -3,3 +3,11 @@ spring:
     name: blog
   flyway:
     enabled: true
+management:
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  server:
+    port: 8081
