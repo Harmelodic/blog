@@ -88,6 +88,13 @@
             <artifactId>flyway-core</artifactId>
             <!-- Required for DB initialisation & migrations -->
         </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+            <!-- Required for connecting to PostgreSQL databases -->
+        </dependency>
+
 
         <!-- Test Dependencies -->
         <dependency>

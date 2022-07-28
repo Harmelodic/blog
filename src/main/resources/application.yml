@@ -1,6 +1,10 @@
 spring:
   application:
     name: blog
+  datasource:
+    url: jdbc:postgresql://localhost:5432/blog
+    driverClassName: org.postgresql.Driver
+    username: ${DATABASE_USERNAME:blog}
   flyway:
     enabled: true
 management:
