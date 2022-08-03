@@ -15,13 +15,24 @@ spec:
       serviceAccountName: blog
       containers:
         - name: blog
-          image: "europe-north1-docker.pkg.dev/personal-artifacts-353012/harmelodic/blog:latest"
+          image: europe-north1-docker.pkg.dev/personal-artifacts-353012/harmelodic/blog:latest
           imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 8080
             - name: management-http
               containerPort: 8081
+          env:
+            - name: DATABASE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: database
+                  name: blog-database-connection
+            - name: DATABASE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: username
+                  name: blog-database-connection
           resources:
             requests:
               cpu: 500m
@@ -48,6 +59,29 @@ spec:
             httpGet:
               path: /actuator/health/liveness
               port: management-http
+        - name: cloud-sql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.31.2-alpine
+          command:
+            - /cloud_sql_proxy
+            - -ip_address_types=PRIVATE
+            - -log_debug_stdout
+            - -enable_iam_login
+            - -instances=${INSTANCE_CONNECTION_NAME}=tcp:5432
+          env:
+            - name: INSTANCE_CONNECTION_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: instance-connection-name
+                  name: blog-database-connection
+          securityContext:
+            runAsNonRoot: true
+          resources:
+            requests:
+              cpu: 500m
+              memory: 0.2Gi
+            limits:
+              cpu: "1"
+              memory: 0.5Gi
   strategy:
     type: RollingUpdate
     rollingUpdate:

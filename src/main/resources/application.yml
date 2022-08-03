@@ -1,12 +1,3 @@
-spring:
-  application:
-    name: blog
-  datasource:
-    url: jdbc:postgresql://localhost:5432/blog
-    driverClassName: org.postgresql.Driver
-    username: ${DATABASE_USERNAME:blog}
-  flyway:
-    enabled: true
 management:
   health:
     livenessstate:
@@ -15,3 +6,12 @@ management:
       enabled: true
   server:
     port: 8081
+spring:
+  application:
+    name: blog
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/${DATABASE_NAME:blog}
+    username: ${DATABASE_USERNAME:blog}
+  flyway:
+    enabled: true
