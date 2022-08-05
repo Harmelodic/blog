@@ -36,10 +36,10 @@ spec:
                   name: blog-database-connection
           resources:
             requests:
-              cpu: 50m
+              cpu: 150m
               memory: 50Mi
             limits:
-              cpu: 100m
+              cpu: 200m
               memory: 100Mi
           startupProbe:
             initialDelaySeconds: 60
