@@ -5,3 +5,4 @@ commonLabels:
   app.kubernetes.io/part-of: blog
 resources:
   - ../bases
+  - issuer.yaml

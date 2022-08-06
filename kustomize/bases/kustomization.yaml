@@ -9,4 +9,5 @@ commonLabels:
   app.kubernetes.io/part-of: harmelodic
 resources:
   - deployment.yaml
+  - ingress.yaml
   - service.yaml
