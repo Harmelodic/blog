@@ -124,8 +124,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>test</scope>
-            <!-- Required for testing with an in-memory DB -->
+            <!-- Required for testing or running locally with an in-memory DB -->
         </dependency>
     </dependencies>
 

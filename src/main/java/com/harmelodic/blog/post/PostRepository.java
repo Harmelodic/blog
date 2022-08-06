@@ -1,8 +1,11 @@
 package com.harmelodic.blog.post;
 
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,7 +33,11 @@ public class PostRepository {
     }
 
     public Post fetchPostByDatePosted(Integer datePosted) {
-        return jdbcTemplate.queryForObject("SELECT * FROM post WHERE date_posted = ?", postRowMapper, datePosted);
+        try {
+            return jdbcTemplate.queryForObject("SELECT * FROM post WHERE date_posted = ?", postRowMapper, datePosted);
+        } catch (EmptyResultDataAccessException dataAccessException) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Post Not Found");
+        }
     }
 
     private final RowMapper<String> categoryRowMapper = (((rs, rowNum) ->
