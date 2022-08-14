@@ -28,12 +28,12 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: database
-                  name: blog-database-connection
+                  name: blog-database-connection # Created by Database IaC
             - name: DATABASE_USERNAME
               valueFrom:
                 configMapKeyRef:
                   key: username
-                  name: blog-database-connection
+                  name: blog-database-connection # Created by Database IaC
           resources:
             requests:
               cpu: 100m
@@ -73,7 +73,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: instance-connection-name
-                  name: blog-database-connection
+                  name: blog-database-connection # Created by Database IaC
           securityContext:
             runAsNonRoot: true
           resources:
