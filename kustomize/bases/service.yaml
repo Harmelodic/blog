@@ -5,7 +5,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: blog
+    app.kubernetes.io/name: blog
   sessionAffinity: None
   ports:
     - name: http

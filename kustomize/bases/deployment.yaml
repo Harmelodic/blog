@@ -7,11 +7,11 @@ spec:
   revisionHistoryLimit: 0
   selector:
     matchLabels:
-      app: blog
+      app.kubernetes.io/name: blog
   template:
     metadata:
       labels:
-        app: blog
+        app.kubernetes.io/name: blog
     spec:
       serviceAccountName: blog
       containers:
