@@ -40,10 +40,33 @@ public class PostRepository {
         }
     }
 
+    public Post fetchPostById(UUID id) {
+        try {
+            return jdbcTemplate.queryForObject("SELECT * FROM post WHERE id = ?", postRowMapper, id);
+        } catch (EmptyResultDataAccessException dataAccessException) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Post Not Found");
+        }
+    }
+
     private final RowMapper<String> categoryRowMapper = (((rs, rowNum) ->
             rs.getString("category")));
 
     public List<String> fetchAllCategories() {
         return jdbcTemplate.query("SELECT DISTINCT category FROM post ORDER BY category ASC", categoryRowMapper);
+    }
+
+    public void createNewPost(Post post) {
+        jdbcTemplate.update("""
+                        INSERT INTO post (id, title, route, date_posted, last_updated, file_name, category)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                        """,
+                UUID.randomUUID(),
+                post.title(),
+                post.route(),
+                post.datePosted(),
+                post.lastUpdated(),
+                post.fileName(),
+                post.category()
+        );
     }
 }
