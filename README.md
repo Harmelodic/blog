@@ -1,5 +1,5 @@
 # blog
 
-Service for serving blog-related data.
+Service for Harmelodic blog data.
 
 Built in Java.

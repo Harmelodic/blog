@@ -14,7 +14,7 @@
         <image.tag>${maven.build.timestamp}</image.tag>
 
         <!-- Dependency / Plugin properties -->
-        <java.version>18</java.version>
+        <java.version>19</java.version>
         <logback.contrib.version>0.1.5</logback.contrib.version>
         <maven.build.timestamp.format>yyyy-MM-dd_HH.mm.ss</maven.build.timestamp.format>
         <maven.compiler.source>${java.version}</maven.compiler.source>
