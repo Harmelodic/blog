@@ -146,7 +146,7 @@
                 <configuration>
                     <from>
                         <image>
-                            eclipse-temurin:18-jre-alpine@sha256:561d9c9c10356ce92f7bc7a306a7f9c7423a031a5bddb664739c8bc862094256
+                            eclipse-temurin:19-jre-alpine@sha256:dde223014bd6917ea00d9eb370add424dc5dfcbcfcb8e8efac15a050563d312e
                         </image>
                     </from>
                     <to>
