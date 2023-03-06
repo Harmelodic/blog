@@ -95,7 +95,6 @@
             <!-- Required for connecting to PostgreSQL databases -->
         </dependency>
 
-
         <!-- Test Dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

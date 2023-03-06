@@ -6,6 +6,10 @@ management:
       enabled: true
   server:
     port: 8081
+server:
+  error:
+    whitelabel:
+      enabled: false
 spring:
   application:
     name: blog
