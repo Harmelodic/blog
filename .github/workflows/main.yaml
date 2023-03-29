@@ -23,7 +23,8 @@ jobs:
           workload_identity_provider: projects/401363556022/locations/global/workloadIdentityPools/automation/providers/github
           service_account: automation@automation-220928.iam.gserviceaccount.com
       - run: gcloud auth configure-docker europe-north1-docker.pkg.dev
-      - run: |-
-          mvn deploy \
-          -Dimage.repository=europe-north1-docker.pkg.dev/personal-artifacts-353012/harmelodic/blog \
-          -Dimage.tag=${GITHUB_SHA:-latest}
+      - run: >
+          mvn deploy
+          --no-transfer-progress
+          --define image.repository=europe-north1-docker.pkg.dev/personal-artifacts-353012/harmelodic/blog \
+          --define image.tag=${GITHUB_SHA:-latest}
