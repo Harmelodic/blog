@@ -26,5 +26,5 @@ jobs:
       - run: >
           mvn deploy
           --no-transfer-progress
-          --define image.repository=europe-north1-docker.pkg.dev/personal-artifacts-353012/harmelodic/blog \
+          --define image.repository=europe-north1-docker.pkg.dev/personal-artifacts-353012/harmelodic/blog
           --define image.tag=${GITHUB_SHA:-latest}
