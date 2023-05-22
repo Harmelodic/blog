@@ -19,3 +19,7 @@ spring:
     username: ${DATABASE_USERNAME:blog}
   flyway:
     enabled: true
+contentful:
+  token: ${CONTENTFUL_TOKEN:no-token}
+  space: ${CONTENTFUL_SPACE:ei54cjka6crw}
+  environment: ${CONTENTFUL_ENVIRONMENT:master}

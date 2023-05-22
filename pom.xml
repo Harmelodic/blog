@@ -94,6 +94,13 @@
             <scope>runtime</scope>
             <!-- Required for connecting to PostgreSQL databases -->
         </dependency>
+        <dependency>
+            <groupId>com.contentful.java</groupId>
+            <artifactId>java-sdk</artifactId>
+            <version>10.5.14</version>
+            <!-- Required for Contentful integration -->
+        </dependency>
+
 
         <!-- Test Dependencies -->
         <dependency>
