@@ -1,11 +1,16 @@
 package com.harmelodic.blog.post;
 
-import com.contentful.java.cda.CDAArray;
 import com.contentful.java.cda.CDAClient;
 import com.contentful.java.cda.CDAEntry;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.util.List;
+
+// https://contentful.github.io/contentful.java/
 public class ContentfulClient {
+
+    final String LOCALE = "en-GB";
+
     final CDAClient client;
 
     ContentfulClient(@Value("${contentful.token}") String token,
@@ -17,7 +22,19 @@ public class ContentfulClient {
                 .build();
     }
 
-    CDAArray fetchAll() {
-        return client.fetch(CDAEntry.class).all();
+    List<BlogPost> fetchAllBlogPosts() {
+        return client.fetch(CDAEntry.class)
+                .withContentType("blogPost")
+                .orderBy("-sys.createdAt")
+                .all()
+                .entries()
+                .values()
+                .stream()
+                .map(cdaEntry -> new BlogPost(
+                        cdaEntry.id(),
+                        cdaEntry.getField(LOCALE, "title"),
+                        cdaEntry.getField(LOCALE, "content")
+                ))
+                .toList();
     }
 }
