@@ -1,25 +1,22 @@
-package com.harmelodic.blog.post;
+package com.harmelodic.blog.post.contentful;
 
 import com.contentful.java.cda.CDAClient;
 import com.contentful.java.cda.CDAEntry;
-import org.springframework.beans.factory.annotation.Value;
+import com.harmelodic.blog.post.BlogPost;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 // https://contentful.github.io/contentful.java/
+@Component
 public class ContentfulClient {
 
     final String LOCALE = "en-GB";
 
     final CDAClient client;
 
-    ContentfulClient(@Value("${contentful.token}") String token,
-                     @Value("${contentful.space}") String space,
-                     @Value("${contentful.environment}") String environment) {
-        client = CDAClient.builder().setToken(token)
-                .setSpace(space)
-                .setEnvironment(environment)
-                .build();
+    ContentfulClient(CDAClient client) {
+        this.client = client;
     }
 
     List<BlogPost> fetchAllBlogPosts() {
