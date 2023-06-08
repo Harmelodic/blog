@@ -8,12 +8,24 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: blog
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   template:
     metadata:
       labels:
         app.kubernetes.io/name: blog
     spec:
       serviceAccountName: blog
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 3000
+        fsGroup: 2000
       containers:
         - name: blog
           image: europe-north1-docker.pkg.dev/personal-artifacts-353012/harmelodic/blog:latest
@@ -71,14 +83,14 @@ spec:
                 configMapKeyRef:
                   key: instance-connection-name
                   name: blog-database-connection # Created by Database IaC
-          securityContext:
-            runAsNonRoot: true
           resources:
             requests:
               cpu: 100m
               memory: 100Mi
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
