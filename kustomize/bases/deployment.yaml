@@ -69,6 +69,13 @@ spec:
             httpGet:
               path: /actuator/health/liveness
               port: management-http
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
         - name: cloud-sql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.33.7-alpine
           command:
