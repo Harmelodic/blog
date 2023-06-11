@@ -20,6 +20,7 @@ spring:
   flyway:
     enabled: true
 contentful:
+  baseUrl: ${CONTENTFUL_BASE_URL:https://cdn.contentful.com}
   token: ${CONTENTFUL_TOKEN:no-token}
-  space: ${CONTENTFUL_SPACE:ei54cjka6crw}
-  environment: ${CONTENTFUL_ENVIRONMENT:master}
+  space: ${CONTENTFUL_SPACE:no-space}
+  environment: ${CONTENTFUL_ENVIRONMENT:no-env}

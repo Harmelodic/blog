@@ -18,10 +18,11 @@ public class ContentfulClient {
     String environment;
 
     ContentfulClient(WebClient.Builder builder,
+                     @Value("${contentful.baseUrl}") String baseUrl,
                      @Value("${contentful.token}") String token,
                      @Value("${contentful.space}") String space,
                      @Value("${contentful.environment}") String environment) {
-        this.client = builder.baseUrl("https://cdn.contentful.com").build();
+        this.client = builder.baseUrl(baseUrl).build();
         this.token = token;
         this.space = space;
         this.environment = environment;
@@ -31,7 +32,7 @@ public class ContentfulClient {
         ContentfulBlogPostResponseBody response = client.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/spaces/{space}/environments/{environment}/entries")
-                        .queryParam("access_token", List.of(token))
+                        .queryParam("access_token", token)
                         .queryParam("limit", 100)
                         .queryParam("order", "-sys.createdAt")
                         .queryParam("sys.contentType.sys.id", "blogPost")

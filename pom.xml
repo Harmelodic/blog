@@ -9,13 +9,9 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <properties>
-        <!-- Custom properties -->
         <image.repository>${project.artifactId}</image.repository>
         <image.tag>${maven.build.timestamp}</image.tag>
-
-        <!-- Dependency / Plugin properties -->
         <java.version>20</java.version>
-        <logback.contrib.version>0.1.5</logback.contrib.version>
         <maven.build.timestamp.format>yyyy-MM-dd_HH.mm.ss</maven.build.timestamp.format>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -41,6 +37,19 @@
                 <scope>import</scope>
                 <!-- Bill of Materials for managing JUnit dependencies -->
             </dependency>
+            <dependency>
+                <groupId>au.com.dius.pact.consumer</groupId>
+                <artifactId>junit5</artifactId>
+                <version>4.6.0</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+                <!-- Required for PACT Contract testing -->
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -59,13 +68,13 @@
         <dependency>
             <groupId>ch.qos.logback.contrib</groupId>
             <artifactId>logback-json-classic</artifactId>
-            <version>${logback.contrib.version}</version>
+            <version>0.1.5</version>
             <!-- Required for defining Logback JSON Layout -->
         </dependency>
         <dependency>
             <groupId>ch.qos.logback.contrib</groupId>
             <artifactId>logback-jackson</artifactId>
-            <version>${logback.contrib.version}</version>
+            <version>0.1.5</version>
             <!-- Required for formatting Logback JSON logs with Jackson -->
         </dependency>
         <dependency>
@@ -101,7 +110,6 @@
             <!-- Required for Contentful integration -->
         </dependency>
 
-
         <!-- Test Dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -132,6 +140,12 @@
             <artifactId>h2</artifactId>
             <!-- Required for testing or running locally with an in-memory DB -->
         </dependency>
+        <dependency>
+            <groupId>au.com.dius.pact.consumer</groupId>
+            <artifactId>junit5</artifactId>
+            <scope>test</scope>
+            <!-- Required for PACT Contract testing -->
+        </dependency>
     </dependencies>
 
     <build>
@@ -142,6 +156,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <pact_do_not_track>true</pact_do_not_track>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
 
             <plugin>
