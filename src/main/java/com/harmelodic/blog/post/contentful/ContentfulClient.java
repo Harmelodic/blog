@@ -2,8 +2,9 @@ package com.harmelodic.blog.post.contentful;
 
 import com.harmelodic.blog.post.BlogPost;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,40 +13,39 @@ import java.util.Map;
 @Component
 public class ContentfulClient {
 
-    WebClient client;
+    RestTemplate client;
     String token;
     String space;
     String environment;
 
-    ContentfulClient(WebClient.Builder builder,
+    ContentfulClient(RestTemplateBuilder builder,
                      @Value("${contentful.baseUrl}") String baseUrl,
                      @Value("${contentful.token}") String token,
                      @Value("${contentful.space}") String space,
                      @Value("${contentful.environment}") String environment) {
-        this.client = builder.baseUrl(baseUrl).build();
+        this.client = builder.rootUri(baseUrl).build();
         this.token = token;
         this.space = space;
         this.environment = environment;
     }
 
-    List<BlogPost> fetchAllBlogPosts() {
-        ContentfulBlogPostResponseBody response = client.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/spaces/{space}/environments/{environment}/entries")
-                        .queryParam("access_token", token)
-                        .queryParam("limit", 100)
-                        .queryParam("order", "-sys.createdAt")
-                        .queryParam("sys.contentType.sys.id", "blogPost")
-                        .build(Map.of(
+    public List<BlogPost> fetchAllBlogPosts() {
+        ContentfulBlogPostResponseBody responseBody =
+                client.getForObject("/spaces/{space}/environments/{environment}/entries" +
+                                "?access_token={token}" +
+                                "&limit=100" +
+                                "&order=-sys.createdAt" +
+                                "&sys.contentType.sys.id=blogPost",
+                        ContentfulBlogPostResponseBody.class,
+                        Map.of(
                                 "space", space,
-                                "environment", environment
-                        )))
-                .exchangeToMono(clientResponse -> clientResponse.bodyToMono(ContentfulBlogPostResponseBody.class))
-                .block();
+                                "environment", environment,
+                                "token", token
+                        ));
 
 
-        if (response != null) {
-            return response.items()
+        if (responseBody != null) {
+            return responseBody.items()
                     .stream()
                     .map(contentfulBlogPost -> new BlogPost(
                             contentfulBlogPost.sys().id(),
@@ -53,8 +53,7 @@ public class ContentfulClient {
                             contentfulBlogPost.fields().content()
                     ))
                     .toList();
-        }
-        else {
+        } else {
             return Collections.emptyList();
         }
     }

@@ -4,3 +4,9 @@ spring:
     url: jdbc:h2:mem:default
 logging:
   config: classpath:logback-local.xml
+
+contentful:
+  baseUrl: https://cdn.contentful.com
+  token: local-token
+  space: local-space
+  environment: local-environment

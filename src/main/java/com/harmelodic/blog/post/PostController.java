@@ -21,8 +21,8 @@ public class PostController {
     }
 
     @GetMapping
-    public List<Post> getAllPosts() {
-        return postService.fetchAllPosts();
+    public List<BlogPost> getAllPosts() {
+        return postService.fetchAllBlogPosts();
     }
 
     @GetMapping("/{datePosted}")
@@ -34,6 +34,4 @@ public class PostController {
     public Post getPostById(@PathVariable("id") UUID id) {
         return postService.fetchPostById(id);
     }
-
-    // TODO: Insert PostMapping endpoint for creating new Posts, when CMS system is available
 }

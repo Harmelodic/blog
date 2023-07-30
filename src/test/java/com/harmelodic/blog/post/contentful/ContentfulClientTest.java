@@ -9,7 +9,7 @@ import au.com.dius.pact.core.model.annotations.Pact;
 import com.harmelodic.blog.post.BlogPost;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -59,7 +59,7 @@ class ContentfulClientTest {
     @Test
     @PactTestFor(pactMethod = "fetchBlogPostsWhenExist")
     void testFetchBlogPostsWhenExist(MockServer mockServer) {
-        ContentfulClient customerClient = new ContentfulClient(WebClient.builder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
+        ContentfulClient customerClient = new ContentfulClient(new RestTemplateBuilder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
 
         List<BlogPost> receivedBlogPosts = customerClient.fetchAllBlogPosts();
 
