@@ -22,4 +22,9 @@ public class CategoryController {
     public List<String> getAllCategories() {
         return categoryService.fetchAllCategories();
     }
+
+    @GetMapping("/v2")
+    public List<Category> getAllCategoriesV2() {
+        return categoryService.fetchAllCategoriesV2();
+    }
 }

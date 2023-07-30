@@ -7,14 +7,14 @@ import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.V4Pact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import com.harmelodic.blog.post.BlogPost;
+import com.harmelodic.blog.post.Category;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -32,10 +32,8 @@ class ContentfulClientTest {
 
     @Pact(consumer = SELF)
     public V4Pact fetchBlogPostsWhenExist(PactDslWithProvider builder) throws IOException {
-        try (InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("response.json")) {
-            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-            byteStream.write(resourceAsStream.readAllBytes());
-            String response = byteStream.toString(Charset.defaultCharset());
+        try (InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("blogposts-response.json")) {
+            String response = new String(resourceAsStream.readAllBytes(), StandardCharsets.UTF_8);
 
             return builder
                     .given("blog_post_exists")
@@ -70,5 +68,41 @@ class ContentfulClientTest {
                         "Some example content")
         );
         assertEquals(expected, receivedBlogPosts);
+    }
+
+    @Pact(consumer = SELF)
+    public V4Pact fetchCategoriesWhenExist(PactDslWithProvider builder) throws IOException {
+        try (InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("tags-response.json")) {
+            String response = new String(resourceAsStream.readAllBytes(), StandardCharsets.UTF_8);
+
+            return builder
+                    .given("categories_exist")
+                    .uponReceiving("a valid request for a list of tags")
+                    .method("GET")
+                    .matchPath(String.format("/spaces/%s/environments/%s/tags", SPACE, ENVIRONMENT))
+                    .headers("Authorization", "Bearer " + TOKEN)
+                    .willRespondWith()
+                    .status(200)
+                    .headers(Map.of(
+                            "Content-Type", "application/json"
+                    ))
+                    .body(response)
+                    .toPact(V4Pact.class);
+        }
+    }
+
+    @Test
+    @PactTestFor(pactMethod = "fetchCategoriesWhenExist")
+    void testFetchCategoriesWhenExist(MockServer mockServer) {
+        ContentfulClient customerClient = new ContentfulClient(new RestTemplateBuilder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
+
+        List<Category> receivedCategories = customerClient.fetchAllCategories();
+
+        List<Category> expected = List.of(
+                new Category("engineeringPrinciples", "Engineering Principles"),
+                new Category("blog", "Blog"),
+                new Category("review", "Review"));
+
+        assertEquals(expected, receivedCategories);
     }
 }
