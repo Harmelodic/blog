@@ -8,6 +8,7 @@ commonLabels:
   app.kubernetes.io/part-of: harmelodic
   app.kubernetes.io/version: latest
 resources:
+  - config-map-contentful.yaml
   - deployment.yaml
   - ingress.yaml
   - service.yaml
