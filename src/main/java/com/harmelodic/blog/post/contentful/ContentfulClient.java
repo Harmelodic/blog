@@ -4,7 +4,6 @@ import com.harmelodic.blog.post.BlogPost;
 import com.harmelodic.blog.post.Category;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
@@ -111,5 +110,10 @@ public class ContentfulClient {
     }
 
     record ContentfulTagSys(String id) {
+    }
+
+    public BlogPost fetchBlogPostById(String id) {
+        // empty
+        return null;
     }
 }

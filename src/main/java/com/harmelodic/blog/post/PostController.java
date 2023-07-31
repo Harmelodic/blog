@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/post")
@@ -25,13 +24,8 @@ public class PostController {
         return postService.fetchAllBlogPosts();
     }
 
-    @GetMapping("/{datePosted}")
-    public Post getPostByDatePosted(@PathVariable("datePosted") String datePosted) {
-        return postService.fetchPostByDatePosted(Integer.parseInt(datePosted));
-    }
-
     @GetMapping("/{id}")
-    public Post getPostById(@PathVariable("id") UUID id) {
+    public BlogPost getPostById(@PathVariable("id") String id) {
         return postService.fetchPostById(id);
     }
 }
