@@ -46,6 +46,26 @@ spec:
                 configMapKeyRef:
                   key: username
                   name: blog-database-connection # Created by Database IaC
+            - name: CONTENTFUL_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: contentful
+                  name: base-url
+            - name: CONTENTFUL_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  key: contentful
+                  name: environment
+            - name: CONTENTFUL_SPACE
+              valueFrom:
+                configMapKeyRef:
+                  key: contentful
+                  name: space
+            - name: CONTENTFUL_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: contentful
+                  name: token
           resources:
             requests:
               cpu: 100m

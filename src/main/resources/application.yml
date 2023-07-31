@@ -13,9 +13,8 @@ server:
 spring:
   application:
     name: blog
-  datasource:
-    driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/${DATABASE_NAME:blog}
-    username: ${DATABASE_USERNAME:blog}
-  flyway:
-    enabled: true
+contentful:
+  baseUrl: ${CONTENTFUL_BASE_URL:https://cdn.contentful.com}
+  token: ${CONTENTFUL_TOKEN:no-token}
+  space: ${CONTENTFUL_SPACE:no-space}
+  environment: ${CONTENTFUL_ENVIRONMENT:no-env}

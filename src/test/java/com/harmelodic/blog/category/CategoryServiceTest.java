@@ -1,5 +1,6 @@
-package com.harmelodic.blog.post;
+package com.harmelodic.blog.category;
 
+import com.harmelodic.blog.ContentfulClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -7,7 +8,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,29 +17,29 @@ import static org.mockito.Mockito.when;
 class CategoryServiceTest {
 
     @Mock
-    PostRepository postRepository;
+    ContentfulClient contentfulClient;
 
     @InjectMocks
     CategoryService categoryService;
 
     @Test
     void fetchAllCategoriesSuccess() {
-        List<String> categories = List.of(
-                "Something",
-                "Something Else",
-                "Final Something"
+        List<Category> categories = List.of(
+                new Category("something", "Something"),
+                new Category("somethingElse", "Something Else"),
+                new Category("finalSomething", "Final Something")
         );
 
-        when(postRepository.fetchAllCategories()).thenReturn(categories);
+        when(contentfulClient.fetchAllCategories()).thenReturn(categories);
 
-        List<String> retrievedCategories = categoryService.fetchAllCategories();
+        List<Category> retrievedCategories = categoryService.fetchAllCategories();
 
         assertEquals(categories, retrievedCategories);
     }
 
     @Test
     void fetchAllCategoriesFail() {
-        when(postRepository.fetchAllCategories()).thenThrow(new RuntimeException("Failed to fetch Accounts"));
+        when(contentfulClient.fetchAllCategories()).thenThrow(new RuntimeException("Failed to fetch Accounts"));
 
         assertThrows(RuntimeException.class, () -> categoryService.fetchAllCategories());
     }

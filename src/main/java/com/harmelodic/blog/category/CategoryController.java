@@ -1,4 +1,4 @@
-package com.harmelodic.blog.post;
+package com.harmelodic.blog.category;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<String> getAllCategories() {
+    public List<Category> getAllCategories() {
         return categoryService.fetchAllCategories();
     }
 }
