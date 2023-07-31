@@ -82,7 +82,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
-            readOnlyRootFilesystem: true
+            readOnlyRootFilesystem: false # Spring wants to create temp directories
             capabilities:
               drop:
                 - ALL
