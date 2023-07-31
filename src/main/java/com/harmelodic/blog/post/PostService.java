@@ -14,11 +14,11 @@ public class PostService {
         this.contentfulClient = contentfulClient;
     }
 
-    public List<Post> fetchAllBlogPosts() {
-        return contentfulClient.fetchAllBlogPosts();
+    public List<Post> fetchAllPosts() {
+        return contentfulClient.fetchAllPosts();
     }
 
     public Post fetchPostById(String id) {
-        return contentfulClient.fetchBlogPostById(id);
+        return contentfulClient.fetchPostById(id);
     }
 }

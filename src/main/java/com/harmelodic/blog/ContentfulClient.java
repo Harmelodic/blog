@@ -36,14 +36,14 @@ public class ContentfulClient {
         this.environment = environment;
     }
 
-    public List<Post> fetchAllBlogPosts() {
-        ContentfulEntriesResponseBody responseBody =
+    public List<Post> fetchAllPosts() {
+        ContentfulEntries responseBody =
                 client.getForObject("/spaces/{space_id}/environments/{environment_id}/entries" +
                                 "?access_token={access_token}" +
                                 "&limit=100" +
                                 "&order=-sys.createdAt" +
                                 "&sys.contentType.sys.id=blogPost",
-                        ContentfulEntriesResponseBody.class,
+                        ContentfulEntries.class,
                         Map.of(
                                 "space_id", space,
                                 "environment_id", environment,
@@ -65,20 +65,20 @@ public class ContentfulClient {
         }
     }
 
-    record ContentfulEntriesResponseBody(List<ContentfulEntry> items) {
+    record ContentfulEntries(List<ContentfulEntry> items) {
     }
 
     record ContentfulEntry(ContentfulSys sys,
-                           ContentfulBlogPost fields) {
+                           ContentfulEntryFields fields) {
     }
 
     record ContentfulSys(String id) {
     }
 
-    record ContentfulBlogPost(Integer id,
-                              String title,
-                              String publishedOn,
-                              String content) {
+    record ContentfulEntryFields(Integer id,
+                                 String title,
+                                 String publishedOn,
+                                 String content) {
     }
 
     public List<Category> fetchAllCategories() {
@@ -89,7 +89,7 @@ public class ContentfulClient {
 
         RequestEntity<Void> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
 
-        ContentfulTagResponseBody responseBody = client.exchange(requestEntity, ContentfulTagResponseBody.class).getBody();
+        ContentfulTags responseBody = client.exchange(requestEntity, ContentfulTags.class).getBody();
 
         if (responseBody != null) {
             return responseBody.items()
@@ -101,7 +101,7 @@ public class ContentfulClient {
         }
     }
 
-    record ContentfulTagResponseBody(List<ContentfulTag> items) {
+    record ContentfulTags(List<ContentfulTag> items) {
     }
 
     record ContentfulTag(String name,
@@ -111,8 +111,25 @@ public class ContentfulClient {
     record ContentfulTagSys(String id) {
     }
 
-    public Post fetchBlogPostById(String id) {
-        // empty
-        return null;
+    public Post fetchPostById(String id) {
+        ContentfulEntry contentfulEntry =
+                client.getForObject("/spaces/{space_id}/environments/{environment_id}/entries/{entry_id}" +
+                                "?access_token={access_token}",
+                        ContentfulEntry.class,
+                        Map.of(
+                                "space_id", space,
+                                "environment_id", environment,
+                                "access_token", token,
+                                "entry_id", id
+                        ));
+
+
+        if (contentfulEntry != null) {
+            return new Post(contentfulEntry.sys().id(),
+                            contentfulEntry.fields().title(),
+                            contentfulEntry.fields().content());
+        } else {
+            return null;
+        }
     }
 }

@@ -21,7 +21,7 @@ public class PostController {
 
     @GetMapping
     public List<Post> getAllPosts() {
-        return postService.fetchAllBlogPosts();
+        return postService.fetchAllPosts();
     }
 
     @GetMapping("/{id}")

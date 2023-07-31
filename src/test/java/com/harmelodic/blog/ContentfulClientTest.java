@@ -29,10 +29,11 @@ class ContentfulClientTest {
     private static final String TOKEN = "example-token";
     private static final String SPACE = "space-id";
     private static final String ENVIRONMENT = "master";
+    private static final String EXAMPLE_ID = "1234abcd1234abcd123abc";
 
     @Pact(consumer = SELF)
-    public V4Pact fetchBlogPostsWhenExist(PactDslWithProvider builder) throws IOException {
-        try (InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("blogposts-response.json")) {
+    public V4Pact fetchPostsWhenExist(PactDslWithProvider builder) throws IOException {
+        try (InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("all-entries-response.json")) {
             String response = new String(resourceAsStream.readAllBytes(), StandardCharsets.UTF_8);
 
             return builder
@@ -55,11 +56,11 @@ class ContentfulClientTest {
     }
 
     @Test
-    @PactTestFor(pactMethod = "fetchBlogPostsWhenExist")
-    void testFetchBlogPostsWhenExist(MockServer mockServer) {
+    @PactTestFor(pactMethod = "fetchPostsWhenExist")
+    void testFetchPostsWhenExist(MockServer mockServer) {
         ContentfulClient customerClient = new ContentfulClient(new RestTemplateBuilder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
 
-        List<Post> receivedPosts = customerClient.fetchAllBlogPosts();
+        List<Post> receivedPosts = customerClient.fetchAllPosts();
 
         List<Post> expected = List.of(
                 new Post(
@@ -104,5 +105,41 @@ class ContentfulClientTest {
                 new Category("review", "Review"));
 
         assertEquals(expected, receivedCategories);
+    }
+
+
+    @Pact(consumer = SELF)
+    public V4Pact fetchPostByIdWhenExist(PactDslWithProvider builder) throws IOException {
+        try (InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("single-entry-response.json")) {
+            String response = new String(resourceAsStream.readAllBytes(), StandardCharsets.UTF_8);
+
+            return builder
+                    .given("blog_post_exists")
+                    .uponReceiving("a valid request for a single blog_post")
+                    .method("GET")
+                    .matchPath(String.format("/spaces/%s/environments/%s/entries/%s", SPACE, ENVIRONMENT, EXAMPLE_ID))
+                    .queryParameterFromProviderState("access_token", TOKEN, TOKEN)
+                    .willRespondWith()
+                    .status(200)
+                    .headers(Map.of(
+                            "Content-Type", "application/json"
+                    ))
+                    .body(response)
+                    .toPact(V4Pact.class);
+        }
+    }
+
+    @Test
+    @PactTestFor(pactMethod = "fetchPostByIdWhenExist")
+    void testFetchPostByIdWhenExist(MockServer mockServer) {
+        ContentfulClient customerClient = new ContentfulClient(new RestTemplateBuilder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
+
+        Post receivedPost = customerClient.fetchPostById(EXAMPLE_ID);
+
+        Post expected = new Post(
+                        EXAMPLE_ID,
+                        "My Blog Title",
+                        "Some example content");
+        assertEquals(expected, receivedPost);
     }
 }
