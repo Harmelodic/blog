@@ -39,23 +39,23 @@ spec:
             - name: CONTENTFUL_BASE_URL
               valueFrom:
                 configMapKeyRef:
-                  key: contentful
-                  name: base-url
+                  key: base-url
+                  name: contentful
             - name: CONTENTFUL_ENVIRONMENT
               valueFrom:
                 configMapKeyRef:
-                  key: contentful
-                  name: environment
+                  key: environment
+                  name: contentful
             - name: CONTENTFUL_SPACE
               valueFrom:
                 configMapKeyRef:
-                  key: contentful
-                  name: space
+                  key: space
+                  name: contentful
             - name: CONTENTFUL_TOKEN
               valueFrom:
                 secretKeyRef:
-                  key: contentful
-                  name: token
+                  key: token
+                  name: contentful
           resources:
             requests:
               cpu: 100m
