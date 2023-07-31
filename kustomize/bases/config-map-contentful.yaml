@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: contentful
 data:
-  base-url: https://cdn.contentful.com
-  environment: master
-  space: ei54cjka6crw
+  base-url: "https://cdn.contentful.com"
+  environment: "master"
+  space: "ei54cjka6crw"

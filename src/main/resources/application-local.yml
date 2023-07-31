@@ -3,5 +3,5 @@ logging:
 contentful:
   baseUrl: https://cdn.contentful.com
   token: local-token
-  space: local-space
-  environment: local-environment
+  space: ei54cjka6crw
+  environment: master
