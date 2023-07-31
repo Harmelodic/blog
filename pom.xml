@@ -88,22 +88,6 @@
             <!-- Required for Controllers and RestTemplate -->
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-            <!-- Required for JDBC Template -->
-        </dependency>
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <!-- Required for DB initialisation & migrations -->
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
-            <!-- Required for connecting to PostgreSQL databases -->
-        </dependency>
-        <dependency>
             <groupId>com.contentful.java</groupId>
             <artifactId>java-sdk</artifactId>
             <version>10.5.14</version>
@@ -134,11 +118,6 @@
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
             <!-- Required for SpringExtension testing -->
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <!-- Required for testing or running locally with an in-memory DB -->
         </dependency>
         <dependency>
             <groupId>au.com.dius.pact.consumer</groupId>
