@@ -1,4 +1,4 @@
-package com.harmelodic.blog.post.contentful;
+package com.harmelodic.blog;
 
 import au.com.dius.pact.consumer.MockServer;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
@@ -6,8 +6,8 @@ import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.V4Pact;
 import au.com.dius.pact.core.model.annotations.Pact;
-import com.harmelodic.blog.post.BlogPost;
-import com.harmelodic.blog.post.Category;
+import com.harmelodic.blog.post.Post;
+import com.harmelodic.blog.category.Category;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -59,15 +59,15 @@ class ContentfulClientTest {
     void testFetchBlogPostsWhenExist(MockServer mockServer) {
         ContentfulClient customerClient = new ContentfulClient(new RestTemplateBuilder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
 
-        List<BlogPost> receivedBlogPosts = customerClient.fetchAllBlogPosts();
+        List<Post> receivedPosts = customerClient.fetchAllBlogPosts();
 
-        List<BlogPost> expected = List.of(
-                new BlogPost(
+        List<Post> expected = List.of(
+                new Post(
                         "1234abcd1234abcd123abc",
                         "My Blog Title",
                         "Some example content")
         );
-        assertEquals(expected, receivedBlogPosts);
+        assertEquals(expected, receivedPosts);
     }
 
     @Pact(consumer = SELF)

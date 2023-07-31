@@ -1,7 +1,7 @@
-package com.harmelodic.blog.post.contentful;
+package com.harmelodic.blog;
 
-import com.harmelodic.blog.post.BlogPost;
-import com.harmelodic.blog.post.Category;
+import com.harmelodic.blog.category.Category;
+import com.harmelodic.blog.post.Post;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpHeaders;
@@ -36,14 +36,14 @@ public class ContentfulClient {
         this.environment = environment;
     }
 
-    public List<BlogPost> fetchAllBlogPosts() {
-        ContentfulBlogPostResponseBody responseBody =
+    public List<Post> fetchAllBlogPosts() {
+        ContentfulEntriesResponseBody responseBody =
                 client.getForObject("/spaces/{space_id}/environments/{environment_id}/entries" +
                                 "?access_token={access_token}" +
                                 "&limit=100" +
                                 "&order=-sys.createdAt" +
                                 "&sys.contentType.sys.id=blogPost",
-                        ContentfulBlogPostResponseBody.class,
+                        ContentfulEntriesResponseBody.class,
                         Map.of(
                                 "space_id", space,
                                 "environment_id", environment,
@@ -54,10 +54,10 @@ public class ContentfulClient {
         if (responseBody != null) {
             return responseBody.items()
                     .stream()
-                    .map(contentfulBlogPost -> new BlogPost(
-                            contentfulBlogPost.sys().id(),
-                            contentfulBlogPost.fields().title(),
-                            contentfulBlogPost.fields().content()
+                    .map(contentfulEntry -> new Post(
+                            contentfulEntry.sys().id(),
+                            contentfulEntry.fields().title(),
+                            contentfulEntry.fields().content()
                     ))
                     .toList();
         } else {
@@ -65,7 +65,7 @@ public class ContentfulClient {
         }
     }
 
-    record ContentfulBlogPostResponseBody(List<ContentfulEntry> items) {
+    record ContentfulEntriesResponseBody(List<ContentfulEntry> items) {
     }
 
     record ContentfulEntry(ContentfulSys sys,
@@ -81,7 +81,6 @@ public class ContentfulClient {
                               String content) {
     }
 
-    // GET /spaces/{space_id}/environments/{environment_id}/tags
     public List<Category> fetchAllCategories() {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
@@ -112,7 +111,7 @@ public class ContentfulClient {
     record ContentfulTagSys(String id) {
     }
 
-    public BlogPost fetchBlogPostById(String id) {
+    public Post fetchBlogPostById(String id) {
         // empty
         return null;
     }

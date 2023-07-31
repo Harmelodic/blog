@@ -1,6 +1,6 @@
-package com.harmelodic.blog.post;
+package com.harmelodic.blog.category;
 
-import com.harmelodic.blog.post.contentful.ContentfulClient;
+import com.harmelodic.blog.ContentfulClient;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

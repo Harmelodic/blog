@@ -1,6 +1,6 @@
 package com.harmelodic.blog.post;
 
-import com.harmelodic.blog.post.contentful.ContentfulClient;
+import com.harmelodic.blog.ContentfulClient;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,11 +14,11 @@ public class PostService {
         this.contentfulClient = contentfulClient;
     }
 
-    public List<BlogPost> fetchAllBlogPosts() {
+    public List<Post> fetchAllBlogPosts() {
         return contentfulClient.fetchAllBlogPosts();
     }
 
-    public BlogPost fetchPostById(String id) {
+    public Post fetchPostById(String id) {
         return contentfulClient.fetchBlogPostById(id);
     }
 }

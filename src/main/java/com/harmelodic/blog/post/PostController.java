@@ -20,12 +20,12 @@ public class PostController {
     }
 
     @GetMapping
-    public List<BlogPost> getAllPosts() {
+    public List<Post> getAllPosts() {
         return postService.fetchAllBlogPosts();
     }
 
     @GetMapping("/{id}")
-    public BlogPost getPostById(@PathVariable("id") String id) {
+    public Post getPostById(@PathVariable("id") String id) {
         return postService.fetchPostById(id);
     }
 }

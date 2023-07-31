@@ -1,6 +1,6 @@
 package com.harmelodic.blog.post;
 
-import com.harmelodic.blog.post.contentful.ContentfulClient;
+import com.harmelodic.blog.ContentfulClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,13 +24,13 @@ class PostServiceTest {
 
     @Test
     void fetchAllPostsSuccess() {
-        List<BlogPost> postList = List.of(
-                new BlogPost("random-id", "Blog Title", "some content"),
-                new BlogPost("random-id2", "Blog Title 2", "some other content")
+        List<Post> postList = List.of(
+                new Post("random-id", "Blog Title", "some content"),
+                new Post("random-id2", "Blog Title 2", "some other content")
         );
         when(contentfulClient.fetchAllBlogPosts()).thenReturn(postList);
 
-        List<BlogPost> retrievedAccounts = postService.fetchAllBlogPosts();
+        List<Post> retrievedAccounts = postService.fetchAllBlogPosts();
 
         assertEquals(postList, retrievedAccounts);
     }
@@ -44,10 +44,10 @@ class PostServiceTest {
 
     @Test
     void fetchPostByIdSuccess() {
-        BlogPost post = new BlogPost("random-id", "Blog Title", "some content");
+        Post post = new Post("random-id", "Blog Title", "some content");
         when(contentfulClient.fetchBlogPostById(post.id())).thenReturn(post);
 
-        BlogPost receivedAccount = postService.fetchPostById(post.id());
+        Post receivedAccount = postService.fetchPostById(post.id());
 
         assertEquals(post, receivedAccount);
     }
