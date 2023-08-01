@@ -25,8 +25,8 @@ class PostServiceTest {
     @Test
     void fetchAllPostsSuccess() {
         List<Post> postList = List.of(
-                new Post("random-id", "Blog Title", "some content"),
-                new Post("random-id2", "Blog Title 2", "some other content")
+                new Post("random-id", "Blog Title", "some content", List.of("anExampleTag")),
+                new Post("random-id2", "Blog Title 2", "some other content", List.of("anExampleTag"))
         );
         when(contentfulClient.fetchAllPosts()).thenReturn(postList);
 
@@ -44,7 +44,7 @@ class PostServiceTest {
 
     @Test
     void fetchPostByIdSuccess() {
-        Post post = new Post("random-id", "Blog Title", "some content");
+        Post post = new Post("random-id", "Blog Title", "some content", List.of("anExampleTag"));
         when(contentfulClient.fetchPostById(post.id())).thenReturn(post);
 
         Post receivedAccount = postService.fetchPostById(post.id());

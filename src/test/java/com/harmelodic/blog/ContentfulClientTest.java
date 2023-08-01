@@ -66,7 +66,8 @@ class ContentfulClientTest {
                 new Post(
                         "1234abcd1234abcd123abc",
                         "My Blog Title",
-                        "Some example content")
+                        "Some example content",
+                        List.of("anExampleTag"))
         );
         assertEquals(expected, receivedPosts);
     }
@@ -137,9 +138,10 @@ class ContentfulClientTest {
         Post receivedPost = customerClient.fetchPostById(EXAMPLE_ID);
 
         Post expected = new Post(
-                        EXAMPLE_ID,
-                        "My Blog Title",
-                        "Some example content");
+                EXAMPLE_ID,
+                "My Blog Title",
+                "Some example content",
+                List.of("anExampleTag"));
         assertEquals(expected, receivedPost);
     }
 }

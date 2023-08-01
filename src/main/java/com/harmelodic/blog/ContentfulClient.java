@@ -57,8 +57,12 @@ public class ContentfulClient {
                     .map(contentfulEntry -> new Post(
                             contentfulEntry.sys().id(),
                             contentfulEntry.fields().title(),
-                            contentfulEntry.fields().content()
-                    ))
+                            contentfulEntry.fields().content(),
+                            contentfulEntry.metadata()
+                                    .tags()
+                                    .stream()
+                                    .map(contentfulEntryMetadataTag -> contentfulEntryMetadataTag.sys().id())
+                                    .toList()))
                     .toList();
         } else {
             return Collections.emptyList();
@@ -69,7 +73,8 @@ public class ContentfulClient {
     }
 
     record ContentfulEntry(ContentfulSys sys,
-                           ContentfulEntryFields fields) {
+                           ContentfulEntryFields fields,
+                           ContentfulEntryMetadata metadata) {
     }
 
     record ContentfulSys(String id) {
@@ -79,6 +84,15 @@ public class ContentfulClient {
                                  String title,
                                  String publishedOn,
                                  String content) {
+    }
+
+    record ContentfulEntryMetadata(List<ContentfulEntryMetadataTag> tags) {
+    }
+
+    record ContentfulEntryMetadataTag(ContentfulEntryMetadataTagSys sys) {
+    }
+
+    record ContentfulEntryMetadataTagSys(String id) {
     }
 
     public List<Category> fetchAllCategories() {
@@ -126,8 +140,13 @@ public class ContentfulClient {
 
         if (contentfulEntry != null) {
             return new Post(contentfulEntry.sys().id(),
-                            contentfulEntry.fields().title(),
-                            contentfulEntry.fields().content());
+                    contentfulEntry.fields().title(),
+                    contentfulEntry.fields().content(),
+                    contentfulEntry.metadata()
+                            .tags()
+                            .stream()
+                            .map(contentfulEntryMetadataTag -> contentfulEntryMetadataTag.sys().id())
+                            .toList());
         } else {
             return null;
         }
