@@ -1,6 +1,6 @@
 package com.harmelodic.blog.post;
 
-import com.harmelodic.blog.ContentfulClient;
+import com.harmelodic.blog.BlogContentfulClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 class PostServiceTest {
 
     @Mock
-    ContentfulClient contentfulClient;
+    BlogContentfulClient blogContentfulClient;
 
     @InjectMocks
     PostService postService;
@@ -28,16 +28,16 @@ class PostServiceTest {
                 new Post("random-id", "Blog Title", "some content", List.of("anExampleTag")),
                 new Post("random-id2", "Blog Title 2", "some other content", List.of("anExampleTag"))
         );
-        when(contentfulClient.fetchAllPosts()).thenReturn(postList);
+        when(blogContentfulClient.fetchAllPosts()).thenReturn(postList);
 
-        List<Post> retrievedAccounts = postService.fetchAllPosts();
+        List<Post> retrievedPosts = postService.fetchAllPosts();
 
-        assertEquals(postList, retrievedAccounts);
+        assertEquals(postList, retrievedPosts);
     }
 
     @Test
     void fetchAllPostsFail() {
-        when(contentfulClient.fetchAllPosts()).thenThrow(new RuntimeException("Failed to fetch Posts"));
+        when(blogContentfulClient.fetchAllPosts()).thenThrow(new RuntimeException("Failed to fetch Posts"));
 
         assertThrows(RuntimeException.class, () -> postService.fetchAllPosts());
     }
@@ -45,17 +45,17 @@ class PostServiceTest {
     @Test
     void fetchPostByIdSuccess() {
         Post post = new Post("random-id", "Blog Title", "some content", List.of("anExampleTag"));
-        when(contentfulClient.fetchPostById(post.id())).thenReturn(post);
+        when(blogContentfulClient.fetchPostById(post.id())).thenReturn(post);
 
-        Post receivedAccount = postService.fetchPostById(post.id());
+        Post retrievedPost = postService.fetchPostById(post.id());
 
-        assertEquals(post, receivedAccount);
+        assertEquals(post, retrievedPost);
     }
 
     @Test
     void fetchPostByIdFail() {
         String id = "random-id";
-        when(contentfulClient.fetchPostById(id)).thenThrow(new RuntimeException("Failed to fetch Account By ID"));
+        when(blogContentfulClient.fetchPostById(id)).thenThrow(new RuntimeException("Failed to fetch Post By ID"));
 
         assertThrows(RuntimeException.class, () -> postService.fetchPostById(id));
     }

@@ -1,6 +1,6 @@
 package com.harmelodic.blog.category;
 
-import com.harmelodic.blog.ContentfulClient;
+import com.harmelodic.blog.BlogContentfulClient;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,13 +8,13 @@ import java.util.List;
 @Service
 public class CategoryService {
 
-    private final ContentfulClient contentfulClient;
+    private final BlogContentfulClient blogContentfulClient;
 
-    CategoryService(ContentfulClient contentfulClient) {
-        this.contentfulClient = contentfulClient;
+    CategoryService(BlogContentfulClient blogContentfulClient) {
+        this.blogContentfulClient = blogContentfulClient;
     }
 
     public List<Category> fetchAllCategories() {
-        return contentfulClient.fetchAllCategories();
+        return blogContentfulClient.fetchAllCategories();
     }
 }

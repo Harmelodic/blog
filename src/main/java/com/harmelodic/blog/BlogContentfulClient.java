@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class ContentfulClient {
+public class BlogContentfulClient {
 
     RestTemplate client;
     String baseUrl;
@@ -24,11 +24,11 @@ public class ContentfulClient {
     String space;
     String environment;
 
-    ContentfulClient(RestTemplateBuilder builder,
-                     @Value("${contentful.baseUrl}") String baseUrl,
-                     @Value("${contentful.token}") String token,
-                     @Value("${contentful.space}") String space,
-                     @Value("${contentful.environment}") String environment) {
+    BlogContentfulClient(RestTemplateBuilder builder,
+                         @Value("${contentful.baseUrl}") String baseUrl,
+                         @Value("${contentful.token}") String token,
+                         @Value("${contentful.space}") String space,
+                         @Value("${contentful.environment}") String environment) {
         this.client = builder.rootUri(baseUrl).build();
         this.baseUrl = baseUrl;
         this.token = token;

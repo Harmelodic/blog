@@ -1,6 +1,6 @@
 package com.harmelodic.blog.category;
 
-import com.harmelodic.blog.ContentfulClient;
+import com.harmelodic.blog.BlogContentfulClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 class CategoryServiceTest {
 
     @Mock
-    ContentfulClient contentfulClient;
+    BlogContentfulClient blogContentfulClient;
 
     @InjectMocks
     CategoryService categoryService;
@@ -30,7 +30,7 @@ class CategoryServiceTest {
                 new Category("finalSomething", "Final Something")
         );
 
-        when(contentfulClient.fetchAllCategories()).thenReturn(categories);
+        when(blogContentfulClient.fetchAllCategories()).thenReturn(categories);
 
         List<Category> retrievedCategories = categoryService.fetchAllCategories();
 
@@ -39,7 +39,7 @@ class CategoryServiceTest {
 
     @Test
     void fetchAllCategoriesFail() {
-        when(contentfulClient.fetchAllCategories()).thenThrow(new RuntimeException("Failed to fetch Accounts"));
+        when(blogContentfulClient.fetchAllCategories()).thenThrow(new RuntimeException("Failed to fetch Categories"));
 
         assertThrows(RuntimeException.class, () -> categoryService.fetchAllCategories());
     }

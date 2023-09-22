@@ -1,6 +1,6 @@
 package com.harmelodic.blog.post;
 
-import com.harmelodic.blog.ContentfulClient;
+import com.harmelodic.blog.BlogContentfulClient;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,17 +8,17 @@ import java.util.List;
 @Service
 public class PostService {
 
-    private final ContentfulClient contentfulClient;
+    private final BlogContentfulClient blogContentfulClient;
 
-    PostService(ContentfulClient contentfulClient) {
-        this.contentfulClient = contentfulClient;
+    PostService(BlogContentfulClient blogContentfulClient) {
+        this.blogContentfulClient = blogContentfulClient;
     }
 
     public List<Post> fetchAllPosts() {
-        return contentfulClient.fetchAllPosts();
+        return blogContentfulClient.fetchAllPosts();
     }
 
     public Post fetchPostById(String id) {
-        return contentfulClient.fetchPostById(id);
+        return blogContentfulClient.fetchPostById(id);
     }
 }

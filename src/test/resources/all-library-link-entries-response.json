@@ -1,0 +1,50 @@
+{
+	"sys": {
+		"type": "Array"
+	},
+	"total": 13,
+	"skip": 0,
+	"limit": 100,
+	"items": [
+		{
+			"metadata": {
+				"tags": []
+			},
+			"sys": {
+				"space": {
+					"sys": {
+						"type": "Link",
+						"linkType": "Space",
+						"id": "space-id"
+					}
+				},
+				"id": "entry-id",
+				"type": "Entry",
+				"createdAt": "2023-09-21T15:20:51.502Z",
+				"updatedAt": "2023-09-21T15:20:51.502Z",
+				"environment": {
+					"sys": {
+						"id": "master",
+						"type": "Link",
+						"linkType": "Environment"
+					}
+				},
+				"revision": 1,
+				"contentType": {
+					"sys": {
+						"type": "Link",
+						"linkType": "ContentType",
+						"id": "libraryLink"
+					}
+				},
+				"locale": "en-GB"
+			},
+			"fields": {
+				"title": "My Link Title",
+				"href": "https://example.com",
+				"category": "Some example category",
+				"favicon": "https://example.com/favicon.ico"
+			}
+		}
+	]
+}

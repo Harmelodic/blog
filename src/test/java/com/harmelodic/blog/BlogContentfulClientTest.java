@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(PactConsumerTestExt.class)
 @PactTestFor(providerName = "contentful-delivery-api")
-class ContentfulClientTest {
+class BlogContentfulClientTest {
 
     private static final String SELF = "harmelodic-blog";
 
@@ -33,7 +33,7 @@ class ContentfulClientTest {
 
     @Pact(consumer = SELF)
     public V4Pact fetchPostsWhenExist(PactDslWithProvider builder) throws IOException {
-        try (InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("all-entries-response.json")) {
+        try (InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("all-blog-post-entries-response.json")) {
             String response = new String(resourceAsStream.readAllBytes(), StandardCharsets.UTF_8);
 
             return builder
@@ -58,7 +58,7 @@ class ContentfulClientTest {
     @Test
     @PactTestFor(pactMethod = "fetchPostsWhenExist")
     void testFetchPostsWhenExist(MockServer mockServer) {
-        ContentfulClient customerClient = new ContentfulClient(new RestTemplateBuilder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
+        BlogContentfulClient customerClient = new BlogContentfulClient(new RestTemplateBuilder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
 
         List<Post> receivedPosts = customerClient.fetchAllPosts();
 
@@ -96,7 +96,7 @@ class ContentfulClientTest {
     @Test
     @PactTestFor(pactMethod = "fetchCategoriesWhenExist")
     void testFetchCategoriesWhenExist(MockServer mockServer) {
-        ContentfulClient customerClient = new ContentfulClient(new RestTemplateBuilder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
+        BlogContentfulClient customerClient = new BlogContentfulClient(new RestTemplateBuilder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
 
         List<Category> receivedCategories = customerClient.fetchAllCategories();
 
@@ -133,7 +133,7 @@ class ContentfulClientTest {
     @Test
     @PactTestFor(pactMethod = "fetchPostByIdWhenExist")
     void testFetchPostByIdWhenExist(MockServer mockServer) {
-        ContentfulClient customerClient = new ContentfulClient(new RestTemplateBuilder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
+        BlogContentfulClient customerClient = new BlogContentfulClient(new RestTemplateBuilder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
 
         Post receivedPost = customerClient.fetchPostById(EXAMPLE_ID);
 
