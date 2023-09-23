@@ -34,6 +34,7 @@ public class LibraryContentfulClient {
         ContentfulEntries responseBody =
                 client.getForObject("/spaces/{space_id}/environments/{environment_id}/entries" +
                                 "?access_token={access_token}" +
+                                "&limit=300" +
                                 "&sys.contentType.sys.id=libraryLink",
                         ContentfulEntries.class,
                         Map.of(
