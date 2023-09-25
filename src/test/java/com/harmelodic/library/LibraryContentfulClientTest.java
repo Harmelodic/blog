@@ -39,6 +39,7 @@ class LibraryContentfulClientTest {
                     .method("GET")
                     .matchPath(String.format("/spaces/%s/environments/%s/entries", SPACE, ENVIRONMENT))
                     .queryParameterFromProviderState("access_token", TOKEN, TOKEN)
+                    .queryParameterFromProviderState("limit", "300", "300")
                     .queryParameterFromProviderState("sys.contentType.sys.id", "libraryLink", "libraryLink")
                     .willRespondWith()
                     .status(200)
