@@ -85,7 +85,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <!-- Required for Controllers and RestTemplate -->
+            <!-- Required for Controllers and RestClient -->
         </dependency>
         <dependency>
             <groupId>com.contentful.java</groupId>
