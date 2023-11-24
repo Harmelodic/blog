@@ -8,7 +8,7 @@ import au.com.dius.pact.core.model.V4Pact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.web.client.RestClient;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,7 +54,7 @@ class LibraryContentfulClientTest {
     @Test
     @PactTestFor(pactMethod = "fetchLibraryLinksWhenExist")
     void testFetchLibraryLinksWhenExist(MockServer mockServer) {
-        LibraryContentfulClient customerClient = new LibraryContentfulClient(new RestTemplateBuilder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
+        LibraryContentfulClient customerClient = new LibraryContentfulClient(RestClient.builder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
 
         List<LibraryLink> receivedLibraryLinks = customerClient.fetchAllLibraryLinks();
 

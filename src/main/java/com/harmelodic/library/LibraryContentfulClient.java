@@ -1,29 +1,27 @@
 package com.harmelodic.library;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class LibraryContentfulClient {
 
-    RestTemplate client;
+    RestClient client;
     String baseUrl;
     String token;
     String space;
     String environment;
 
-    LibraryContentfulClient(RestTemplateBuilder builder,
+    LibraryContentfulClient(RestClient.Builder builder,
                             @Value("${contentful.baseUrl}") String baseUrl,
                             @Value("${contentful.token}") String token,
                             @Value("${contentful.space}") String space,
                             @Value("${contentful.environment}") String environment) {
-        this.client = builder.rootUri(baseUrl).build();
+        this.client = builder.baseUrl(baseUrl).build();
         this.baseUrl = baseUrl;
         this.token = token;
         this.space = space;
@@ -31,21 +29,20 @@ public class LibraryContentfulClient {
     }
 
     public List<LibraryLink> fetchAllLibraryLinks() {
-        ContentfulEntries responseBody =
-                client.getForObject("/spaces/{space_id}/environments/{environment_id}/entries" +
-                                "?access_token={access_token}" +
-                                "&limit=500" +
-                                "&sys.contentType.sys.id=libraryLink",
-                        ContentfulEntries.class,
-                        Map.of(
-                                "space_id", space,
-                                "environment_id", environment,
-                                "access_token", token
-                        ));
+        ContentfulEntries contentfulEntries =
+                client.get()
+                        .uri(uriBuilder -> uriBuilder
+                                .path("/spaces/{space_id}/environments/{environment_id}/entries")
+                                .queryParam("access_token", token)
+                                .queryParam("limit", 500)
+                                .queryParam("sys.contentType.sys.id", "libraryLink")
+                                .build(space, environment))
+                        .retrieve()
+                        .body(ContentfulEntries.class);
 
 
-        if (responseBody != null) {
-            return responseBody.items()
+        if (contentfulEntries != null) {
+            return contentfulEntries.items()
                     .stream()
                     .map(contentfulEntry -> new LibraryLink(
                             contentfulEntry.fields().title(),

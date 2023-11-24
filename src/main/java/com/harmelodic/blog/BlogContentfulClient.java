@@ -3,33 +3,27 @@ package com.harmelodic.blog;
 import com.harmelodic.blog.category.Category;
 import com.harmelodic.blog.post.Post;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
-import java.net.URI;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class BlogContentfulClient {
 
-    RestTemplate client;
+    RestClient client;
     String baseUrl;
     String token;
     String space;
     String environment;
 
-    BlogContentfulClient(RestTemplateBuilder builder,
+    BlogContentfulClient(RestClient.Builder builder,
                          @Value("${contentful.baseUrl}") String baseUrl,
                          @Value("${contentful.token}") String token,
                          @Value("${contentful.space}") String space,
                          @Value("${contentful.environment}") String environment) {
-        this.client = builder.rootUri(baseUrl).build();
+        this.client = builder.baseUrl(baseUrl).build();
         this.baseUrl = baseUrl;
         this.token = token;
         this.space = space;
@@ -37,22 +31,20 @@ public class BlogContentfulClient {
     }
 
     public List<Post> fetchAllPosts() {
-        ContentfulEntries responseBody =
-                client.getForObject("/spaces/{space_id}/environments/{environment_id}/entries" +
-                                "?access_token={access_token}" +
-                                "&limit=100" +
-                                "&order=-sys.createdAt" +
-                                "&sys.contentType.sys.id=blogPost",
-                        ContentfulEntries.class,
-                        Map.of(
-                                "space_id", space,
-                                "environment_id", environment,
-                                "access_token", token
-                        ));
+        ContentfulEntries contentfulEntries =
+                client.get()
+                        .uri(uriBuilder -> uriBuilder
+                                .path("/spaces/{space_id}/environments/{environment_id}/entries")
+                                .queryParam("access_token", token)
+                                .queryParam("limit", 100)
+                                .queryParam("order", "-sys.createdAt")
+                                .queryParam("sys.contentType.sys.id", "blogPost")
+                                .build(space, environment))
+                        .retrieve()
+                        .body(ContentfulEntries.class);
 
-
-        if (responseBody != null) {
-            return responseBody.items()
+        if (contentfulEntries != null) {
+            return contentfulEntries.items()
                     .stream()
                     .map(contentfulEntry -> new Post(
                             contentfulEntry.sys().id(),
@@ -96,17 +88,16 @@ public class BlogContentfulClient {
     }
 
     public List<Category> fetchAllCategories() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
+        ContentfulTags contentfulTags = client.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/spaces/{space_id}/environments/{environment_id}/tags")
+                        .build(space, environment))
+                .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
+                .retrieve()
+                .body(ContentfulTags.class);
 
-        URI uri = URI.create(baseUrl + "/spaces/" + space + "/environments/" + environment + "/tags");
-
-        RequestEntity<Void> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
-
-        ContentfulTags responseBody = client.exchange(requestEntity, ContentfulTags.class).getBody();
-
-        if (responseBody != null) {
-            return responseBody.items()
+        if (contentfulTags != null) {
+            return contentfulTags.items()
                     .stream()
                     .map(contentfulTag -> new Category(contentfulTag.sys().id(), contentfulTag.name()))
                     .toList();
@@ -127,16 +118,13 @@ public class BlogContentfulClient {
 
     public Post fetchPostById(String id) {
         ContentfulEntry contentfulEntry =
-                client.getForObject("/spaces/{space_id}/environments/{environment_id}/entries/{entry_id}" +
-                                "?access_token={access_token}",
-                        ContentfulEntry.class,
-                        Map.of(
-                                "space_id", space,
-                                "environment_id", environment,
-                                "access_token", token,
-                                "entry_id", id
-                        ));
-
+                client.get()
+                        .uri(uriBuilder -> uriBuilder
+                                .path("/spaces/{space_id}/environments/{environment_id}/entries/{entry_id}")
+                                .queryParam("access_token", token)
+                                .build(space, environment, id))
+                        .retrieve()
+                        .body(ContentfulEntry.class);
 
         if (contentfulEntry != null) {
             return new Post(contentfulEntry.sys().id(),

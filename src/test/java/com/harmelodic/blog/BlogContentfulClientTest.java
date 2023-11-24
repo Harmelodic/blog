@@ -6,11 +6,11 @@ import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.V4Pact;
 import au.com.dius.pact.core.model.annotations.Pact;
-import com.harmelodic.blog.post.Post;
 import com.harmelodic.blog.category.Category;
+import com.harmelodic.blog.post.Post;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.web.client.RestClient;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,7 +58,7 @@ class BlogContentfulClientTest {
     @Test
     @PactTestFor(pactMethod = "fetchPostsWhenExist")
     void testFetchPostsWhenExist(MockServer mockServer) {
-        BlogContentfulClient customerClient = new BlogContentfulClient(new RestTemplateBuilder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
+        BlogContentfulClient customerClient = new BlogContentfulClient(RestClient.builder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
 
         List<Post> receivedPosts = customerClient.fetchAllPosts();
 
@@ -96,7 +96,7 @@ class BlogContentfulClientTest {
     @Test
     @PactTestFor(pactMethod = "fetchCategoriesWhenExist")
     void testFetchCategoriesWhenExist(MockServer mockServer) {
-        BlogContentfulClient customerClient = new BlogContentfulClient(new RestTemplateBuilder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
+        BlogContentfulClient customerClient = new BlogContentfulClient(RestClient.builder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
 
         List<Category> receivedCategories = customerClient.fetchAllCategories();
 
@@ -133,7 +133,7 @@ class BlogContentfulClientTest {
     @Test
     @PactTestFor(pactMethod = "fetchPostByIdWhenExist")
     void testFetchPostByIdWhenExist(MockServer mockServer) {
-        BlogContentfulClient customerClient = new BlogContentfulClient(new RestTemplateBuilder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
+        BlogContentfulClient customerClient = new BlogContentfulClient(RestClient.builder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
 
         Post receivedPost = customerClient.fetchPostById(EXAMPLE_ID);
 
