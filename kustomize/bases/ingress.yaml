@@ -4,6 +4,7 @@ metadata:
   name: blog
   annotations:
     cert-manager.io/issuer: blog-acme # Will generate Certificate
+    cert-manager.io/revision-history-limit: 1
 spec:
   ingressClassName: public
   rules:
