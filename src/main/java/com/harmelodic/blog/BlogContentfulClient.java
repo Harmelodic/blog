@@ -117,7 +117,7 @@ public class BlogContentfulClient {
     }
 
     public Post fetchPostById(String id) {
-        ContentfulEntry contentfulEntry =
+        ContentfulEntries contentfulEntries =
                 client.get()
                         .uri(uriBuilder -> uriBuilder
                                 .path("/spaces/{space_id}/environments/{environment_id}/entries")
@@ -126,9 +126,10 @@ public class BlogContentfulClient {
                                 .queryParam("fields.id", id)
                                 .build(space, environment, id))
                         .retrieve()
-                        .body(ContentfulEntry.class);
+                        .body(ContentfulEntries.class);
 
-        if (contentfulEntry != null) {
+        if (contentfulEntries != null && contentfulEntries.items().size() == 1) {
+            ContentfulEntry contentfulEntry = contentfulEntries.items().getFirst();
             return new Post(contentfulEntry.sys().id(),
                     contentfulEntry.fields().title(),
                     contentfulEntry.fields().content(),

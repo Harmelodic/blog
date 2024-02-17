@@ -1,48 +1,58 @@
 {
-	"metadata": {
-		"tags": [
-			{
-				"sys": {
-					"type": "Link",
-					"linkType": "Tag",
-					"id": "anExampleTag"
-				}
-			}
-		]
-	},
 	"sys": {
-		"space": {
-			"sys": {
-				"type": "Link",
-				"linkType": "Space",
-				"id": "ab12cdef3ghi"
-			}
-		},
-		"id": "1234abcd1234abcd123abc",
-		"type": "Entry",
-		"createdAt": "2021-12-31T23:59:59.999Z",
-		"updatedAt": "2022-12-31T23:59:59.999Z",
-		"environment": {
-			"sys": {
-				"id": "master",
-				"type": "Link",
-				"linkType": "Environment"
-			}
-		},
-		"revision": 3,
-		"contentType": {
-			"sys": {
-				"type": "Link",
-				"linkType": "ContentType",
-				"id": "blogPost"
-			}
-		},
-		"locale": "en-GB"
+		"type": "Array"
 	},
-	"fields": {
-		"id": "my-blog-title",
-		"title": "My Blog Title",
-		"publishedOn": "2020-10-17T15:50+00:00",
-		"content": "Some example content"
-	}
+	"total": 1,
+	"skip": 0,
+	"limit": 100,
+	"items": [
+		{
+			"metadata": {
+				"tags": [
+					{
+						"sys": {
+							"type": "Link",
+							"linkType": "Tag",
+							"id": "anExampleTag"
+						}
+					}
+				]
+			},
+			"sys": {
+				"space": {
+					"sys": {
+						"type": "Link",
+						"linkType": "Space",
+						"id": "ab12cdef3ghi"
+					}
+				},
+				"id": "1234abcd1234abcd123abc",
+				"type": "Entry",
+				"createdAt": "2021-12-31T23:59:59.999Z",
+				"updatedAt": "2022-12-31T23:59:59.999Z",
+				"environment": {
+					"sys": {
+						"id": "master",
+						"type": "Link",
+						"linkType": "Environment"
+					}
+				},
+				"revision": 3,
+				"contentType": {
+					"sys": {
+						"type": "Link",
+						"linkType": "ContentType",
+						"id": "blogPost"
+					}
+				},
+				"locale": "en-GB"
+			},
+			"fields": {
+				"id": "my-blog-title",
+				"title": "My Blog Title",
+				"publishedOn": "2020-10-17T15:50+00:00",
+				"content": "Some example content"
+			}
+		}
+	]
 }
