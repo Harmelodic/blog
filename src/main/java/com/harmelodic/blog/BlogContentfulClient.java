@@ -47,7 +47,7 @@ public class BlogContentfulClient {
             return contentfulEntries.items()
                     .stream()
                     .map(contentfulEntry -> new Post(
-                            contentfulEntry.sys().id(),
+                            contentfulEntry.fields().id(),
                             contentfulEntry.fields().title(),
                             contentfulEntry.fields().content(),
                             contentfulEntry.metadata()
@@ -72,7 +72,7 @@ public class BlogContentfulClient {
     record ContentfulSys(String id) {
     }
 
-    record ContentfulEntryFields(Integer id,
+    record ContentfulEntryFields(String id,
                                  String title,
                                  String publishedOn,
                                  String content) {
@@ -120,8 +120,10 @@ public class BlogContentfulClient {
         ContentfulEntry contentfulEntry =
                 client.get()
                         .uri(uriBuilder -> uriBuilder
-                                .path("/spaces/{space_id}/environments/{environment_id}/entries/{entry_id}")
+                                .path("/spaces/{space_id}/environments/{environment_id}/entries")
                                 .queryParam("access_token", token)
+                                .queryParam("content_type", "blogPost")
+                                .queryParam("fields.id", id)
                                 .build(space, environment, id))
                         .retrieve()
                         .body(ContentfulEntry.class);

@@ -48,7 +48,7 @@
 				"locale": "en-GB"
 			},
 			"fields": {
-				"id": 1,
+				"id": "my-blog-title",
 				"title": "My Blog Title",
 				"publishedOn": "2020-10-17T15:50+00:00",
 				"content": "Some example content"

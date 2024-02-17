@@ -64,7 +64,7 @@ class BlogContentfulClientTest {
 
         List<Post> expected = List.of(
                 new Post(
-                        "1234abcd1234abcd123abc",
+                        "my-blog-title",
                         "My Blog Title",
                         "Some example content",
                         List.of("anExampleTag"))
@@ -118,8 +118,10 @@ class BlogContentfulClientTest {
                     .given("blog_post_exists")
                     .uponReceiving("a valid request for a single blog_post")
                     .method("GET")
-                    .matchPath(String.format("/spaces/%s/environments/%s/entries/%s", SPACE, ENVIRONMENT, EXAMPLE_ID))
+                    .matchPath(String.format("/spaces/%s/environments/%s/entries", SPACE, ENVIRONMENT))
                     .queryParameterFromProviderState("access_token", TOKEN, TOKEN)
+                    .queryParameterFromProviderState("content_type", "blogPost", "blogPost")
+                    .queryParameterFromProviderState("fields.id", EXAMPLE_ID, EXAMPLE_ID)
                     .willRespondWith()
                     .status(200)
                     .headers(Map.of(
