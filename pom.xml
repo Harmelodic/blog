@@ -24,7 +24,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>3.2.3</version>
+                <version>3.2.4</version>
                 <type>pom</type>
                 <scope>import</scope>
                 <!-- Bill of Materials for managing Spring Boot Dependencies -->
@@ -90,7 +90,7 @@
         <dependency>
             <groupId>com.contentful.java</groupId>
             <artifactId>java-sdk</artifactId>
-            <version>10.5.17</version>
+            <version>10.5.18</version>
             <!-- Required for Contentful integration -->
         </dependency>
 
@@ -236,7 +236,7 @@
                 <!-- Required for running `mvn spring-boot:run` locally -->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.2.3</version>
+                <version>3.2.4</version>
                 <configuration>
                     <profiles>local</profiles>
                 </configuration>
