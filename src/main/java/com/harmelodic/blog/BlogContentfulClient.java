@@ -2,6 +2,8 @@ package com.harmelodic.blog;
 
 import com.harmelodic.blog.category.Category;
 import com.harmelodic.blog.post.Post;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -11,6 +13,8 @@ import java.util.List;
 
 @Component
 public class BlogContentfulClient {
+
+    Logger logger = LoggerFactory.getLogger(BlogContentfulClient.class);
 
     RestClient client;
     String baseUrl;
@@ -28,6 +32,13 @@ public class BlogContentfulClient {
         this.token = token;
         this.space = space;
         this.environment = environment;
+
+        // Maintenance note: DO NOT log the `token` for security.
+        logger.atInfo()
+                .addKeyValue("baseUrl", baseUrl)
+                .addKeyValue("space", space)
+                .addKeyValue("environment", environment)
+                .log("Contentful Client configured");
     }
 
     public List<Post> fetchAllPosts() {

@@ -1,7 +1,7 @@
 logging:
-  config: classpath:logback-local.xml
+  config: classpath:logback-console.xml
 contentful:
   baseUrl: https://cdn.contentful.com
-  token: local-token
+  token: ${CONTENTFUL_TOKEN:local-token}
   space: ei54cjka6crw
   environment: master
