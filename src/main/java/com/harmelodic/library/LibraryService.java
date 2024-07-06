@@ -7,13 +7,17 @@ import java.util.List;
 @Service
 public class LibraryService {
 
-    private final LibraryContentfulClient libraryContentfulClient;
+    private final ContentfulClient contentfulClient;
 
-    public LibraryService(LibraryContentfulClient libraryContentfulClient) {
-        this.libraryContentfulClient = libraryContentfulClient;
+    public LibraryService(ContentfulClient contentfulClient) {
+        this.contentfulClient = contentfulClient;
     }
 
     List<LibraryLink> fetchLibrary() throws FailedToFetchLibraryException {
-        return libraryContentfulClient.fetchAllLibraryLinks();
+        try {
+            return contentfulClient.fetchAllLibraryLinks();
+        } catch (ContentfulConnectionException exception) {
+            throw new FailedToFetchLibraryException("Failed to fetch Library Links", exception);
+        }
     }
 }

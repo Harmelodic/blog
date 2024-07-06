@@ -12,8 +12,8 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-public class LibraryContentfulClient {
-    Logger logger = LoggerFactory.getLogger(LibraryContentfulClient.class);
+public class ContentfulClient {
+    Logger logger = LoggerFactory.getLogger(ContentfulClient.class);
 
     RestClient client;
     String baseUrl;
@@ -21,11 +21,11 @@ public class LibraryContentfulClient {
     String space;
     String environment;
 
-    LibraryContentfulClient(RestClient.Builder builder,
-                            @Value("${contentful.baseUrl}") String baseUrl,
-                            @Value("${contentful.token}") String token,
-                            @Value("${contentful.space}") String space,
-                            @Value("${contentful.environment}") String environment) {
+    ContentfulClient(RestClient.Builder builder,
+                     @Value("${contentful.baseUrl}") String baseUrl,
+                     @Value("${contentful.token}") String token,
+                     @Value("${contentful.space}") String space,
+                     @Value("${contentful.environment}") String environment) {
         this.client = builder.baseUrl(baseUrl).build();
         this.baseUrl = baseUrl;
         this.token = token;
@@ -33,7 +33,7 @@ public class LibraryContentfulClient {
         this.environment = environment;
     }
 
-    public List<LibraryLink> fetchAllLibraryLinks() throws FailedToFetchLibraryException {
+    public List<LibraryLink> fetchAllLibraryLinks() throws ContentfulConnectionException {
         try {
             ContentfulEntries contentfulEntries =
                     client.get()
@@ -64,7 +64,7 @@ public class LibraryContentfulClient {
                     .addKeyValue("status", exception.getStatusCode())
                     .addKeyValue("exceptionMessage", exception.getMessage())
                     .log("Connection to Contentful failed.");
-            throw new FailedToFetchLibraryException("Connection to Contentful failed", exception);
+            throw new ContentfulConnectionException("Connection to Contentful failed", exception);
         }
     }
 
