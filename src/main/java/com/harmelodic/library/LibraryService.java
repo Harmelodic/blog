@@ -13,7 +13,7 @@ public class LibraryService {
         this.libraryContentfulClient = libraryContentfulClient;
     }
 
-    List<LibraryLink> fetchLibrary() {
+    List<LibraryLink> fetchLibrary() throws FailedToFetchLibraryException {
         return libraryContentfulClient.fetchAllLibraryLinks();
     }
 }

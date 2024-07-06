@@ -22,7 +22,7 @@ class LibraryServiceTest {
     LibraryService libraryService;
 
     @Test
-    void fetchLibrarySuccess() {
+    void fetchLibrarySuccess() throws FailedToFetchLibraryException {
         List<LibraryLink> library = List.of(
                 new LibraryLink("Some Link thing", "https://example.com", "Example Category", "https://example.com/favicon.ico"),
                 new LibraryLink("Another Link thing", "https://another.com", "Example Category", "https://another.com/favicon.ico")
@@ -35,7 +35,7 @@ class LibraryServiceTest {
     }
 
     @Test
-    void fetchLibraryFail() {
+    void fetchLibraryFail() throws FailedToFetchLibraryException {
         when(libraryContentfulClient.fetchAllLibraryLinks()).thenThrow(new RuntimeException("Failed to fetch LibraryLinks"));
 
         assertThrows(RuntimeException.class, () -> libraryService.fetchLibrary());

@@ -1,9 +1,11 @@
 package com.harmelodic.library;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -20,6 +22,10 @@ public class LibraryController {
 
     @GetMapping
     public List<LibraryLink> getLibrary() {
-        return libraryService.fetchLibrary();
+        try {
+            return libraryService.fetchLibrary();
+        } catch (FailedToFetchLibraryException exception) {
+            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Failed to fetch Library", exception);
+        }
     }
 }

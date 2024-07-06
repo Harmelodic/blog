@@ -1,7 +1,11 @@
 package com.harmelodic.library;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClient;
 
 import java.util.Collections;
@@ -9,6 +13,7 @@ import java.util.List;
 
 @Component
 public class LibraryContentfulClient {
+    Logger logger = LoggerFactory.getLogger(LibraryContentfulClient.class);
 
     RestClient client;
     String baseUrl;
@@ -28,31 +33,38 @@ public class LibraryContentfulClient {
         this.environment = environment;
     }
 
-    public List<LibraryLink> fetchAllLibraryLinks() {
-        ContentfulEntries contentfulEntries =
-                client.get()
-                        .uri(uriBuilder -> uriBuilder
-                                .path("/spaces/{space_id}/environments/{environment_id}/entries")
-                                .queryParam("access_token", token)
-                                .queryParam("limit", 500)
-                                .queryParam("sys.contentType.sys.id", "libraryLink")
-                                .build(space, environment))
-                        .retrieve()
-                        .body(ContentfulEntries.class);
+    public List<LibraryLink> fetchAllLibraryLinks() throws FailedToFetchLibraryException {
+        try {
+            ContentfulEntries contentfulEntries =
+                    client.get()
+                            .uri(uriBuilder -> uriBuilder
+                                    .path("/spaces/{space_id}/environments/{environment_id}/entries")
+                                    .queryParam("access_token", token)
+                                    .queryParam("limit", 500)
+                                    .queryParam("sys.contentType.sys.id", "libraryLink")
+                                    .build(space, environment))
+                            .retrieve()
+                            .body(ContentfulEntries.class);
 
-
-        if (contentfulEntries != null) {
-            return contentfulEntries.items()
-                    .stream()
-                    .map(contentfulEntry -> new LibraryLink(
-                            contentfulEntry.fields().title(),
-                            contentfulEntry.fields().href(),
-                            contentfulEntry.fields().category(),
-                            contentfulEntry.fields().favicon()
-                    ))
-                    .toList();
-        } else {
-            return Collections.emptyList();
+            if (contentfulEntries != null) {
+                return contentfulEntries.items()
+                        .stream()
+                        .map(contentfulEntry -> new LibraryLink(
+                                contentfulEntry.fields().title(),
+                                contentfulEntry.fields().href(),
+                                contentfulEntry.fields().category(),
+                                contentfulEntry.fields().favicon()
+                        ))
+                        .toList();
+            } else {
+                return Collections.emptyList();
+            }
+        } catch (HttpClientErrorException | HttpServerErrorException exception) {
+            logger.atError()
+                    .addKeyValue("status", exception.getStatusCode())
+                    .addKeyValue("exceptionMessage", exception.getMessage())
+                    .log("Connection to Contentful failed.");
+            throw new FailedToFetchLibraryException("Connection to Contentful failed", exception);
         }
     }
 
