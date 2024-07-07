@@ -1,9 +1,11 @@
 package com.harmelodic.blog.category;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -20,6 +22,10 @@ public class CategoryController {
 
     @GetMapping
     public List<Category> getAllCategories() {
-        return categoryService.fetchAllCategories();
+        try {
+            return categoryService.fetchAllCategories();
+        } catch (FailedToFetchCategoriesException exception) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to fetch Categories.", exception);
+        }
     }
 }

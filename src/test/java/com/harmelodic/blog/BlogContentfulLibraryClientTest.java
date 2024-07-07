@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(PactConsumerTestExt.class)
 @PactTestFor(providerName = "contentful-delivery-api")
-class BlogContentfulClientTest {
+class BlogContentfulLibraryClientTest {
 
     private static final String SELF = "harmelodic-blog";
 
@@ -57,8 +57,8 @@ class BlogContentfulClientTest {
 
     @Test
     @PactTestFor(pactMethod = "fetchPostsWhenExist")
-    void testFetchPostsWhenExist(MockServer mockServer) {
-        BlogContentfulClient customerClient = new BlogContentfulClient(RestClient.builder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
+    void testFetchPostsWhenExist(MockServer mockServer) throws ContentfulBlogConnectionException {
+        ContentfulBlogClient customerClient = new ContentfulBlogClient(RestClient.builder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
 
         List<Post> receivedPosts = customerClient.fetchAllPosts();
 
@@ -95,8 +95,8 @@ class BlogContentfulClientTest {
 
     @Test
     @PactTestFor(pactMethod = "fetchCategoriesWhenExist")
-    void testFetchCategoriesWhenExist(MockServer mockServer) {
-        BlogContentfulClient customerClient = new BlogContentfulClient(RestClient.builder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
+    void testFetchCategoriesWhenExist(MockServer mockServer) throws ContentfulBlogConnectionException {
+        ContentfulBlogClient customerClient = new ContentfulBlogClient(RestClient.builder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
 
         List<Category> receivedCategories = customerClient.fetchAllCategories();
 
@@ -135,7 +135,7 @@ class BlogContentfulClientTest {
     @Test
     @PactTestFor(pactMethod = "fetchPostByIdWhenExist")
     void testFetchPostByIdWhenExist(MockServer mockServer) {
-        BlogContentfulClient customerClient = new BlogContentfulClient(RestClient.builder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
+        ContentfulBlogClient customerClient = new ContentfulBlogClient(RestClient.builder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
 
         Post receivedPost = customerClient.fetchPostById(EXAMPLE_ID);
 

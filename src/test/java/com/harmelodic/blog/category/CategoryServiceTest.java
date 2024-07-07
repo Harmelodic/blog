@@ -1,6 +1,7 @@
 package com.harmelodic.blog.category;
 
-import com.harmelodic.blog.BlogContentfulClient;
+import com.harmelodic.blog.ContentfulBlogClient;
+import com.harmelodic.blog.ContentfulBlogConnectionException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,20 +18,20 @@ import static org.mockito.Mockito.when;
 class CategoryServiceTest {
 
     @Mock
-    BlogContentfulClient blogContentfulClient;
+    ContentfulBlogClient contentfulBlogClient;
 
     @InjectMocks
     CategoryService categoryService;
 
     @Test
-    void fetchAllCategoriesSuccess() {
+    void fetchAllCategoriesSuccess() throws ContentfulBlogConnectionException, FailedToFetchCategoriesException {
         List<Category> categories = List.of(
                 new Category("something", "Something"),
                 new Category("somethingElse", "Something Else"),
                 new Category("finalSomething", "Final Something")
         );
 
-        when(blogContentfulClient.fetchAllCategories()).thenReturn(categories);
+        when(contentfulBlogClient.fetchAllCategories()).thenReturn(categories);
 
         List<Category> retrievedCategories = categoryService.fetchAllCategories();
 
@@ -38,9 +39,10 @@ class CategoryServiceTest {
     }
 
     @Test
-    void fetchAllCategoriesFail() {
-        when(blogContentfulClient.fetchAllCategories()).thenThrow(new RuntimeException("Failed to fetch Categories"));
+    void fetchAllCategoriesFail() throws ContentfulBlogConnectionException {
+        when(contentfulBlogClient.fetchAllCategories())
+                .thenThrow(new ContentfulBlogConnectionException("Failed to fetch Categories", new Throwable()));
 
-        assertThrows(RuntimeException.class, () -> categoryService.fetchAllCategories());
+        assertThrows(FailedToFetchCategoriesException.class, () -> categoryService.fetchAllCategories());
     }
 }

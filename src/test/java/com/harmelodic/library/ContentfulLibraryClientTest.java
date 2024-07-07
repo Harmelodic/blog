@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(PactConsumerTestExt.class)
 @PactTestFor(providerName = "contentful-delivery-api")
-class ContentfulClientTest {
+class ContentfulLibraryClientTest {
 
     private static final String SELF = "harmelodic-blog";
 
@@ -53,8 +53,8 @@ class ContentfulClientTest {
 
     @Test
     @PactTestFor(pactMethod = "fetchLibraryLinksWhenExist")
-    void testFetchLibraryLinksWhenExist(MockServer mockServer) throws ContentfulConnectionException {
-        ContentfulClient customerClient = new ContentfulClient(RestClient.builder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
+    void testFetchLibraryLinksWhenExist(MockServer mockServer) throws ContentfulLibraryConnectionException {
+        ContentfulLibraryClient customerClient = new ContentfulLibraryClient(RestClient.builder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
 
         List<LibraryLink> receivedLibraryLinks = customerClient.fetchAllLibraryLinks();
 

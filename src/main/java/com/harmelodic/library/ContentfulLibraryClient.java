@@ -12,8 +12,8 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-public class ContentfulClient {
-    Logger logger = LoggerFactory.getLogger(ContentfulClient.class);
+public class ContentfulLibraryClient {
+    Logger logger = LoggerFactory.getLogger(ContentfulLibraryClient.class);
 
     RestClient client;
     String baseUrl;
@@ -21,11 +21,11 @@ public class ContentfulClient {
     String space;
     String environment;
 
-    ContentfulClient(RestClient.Builder builder,
-                     @Value("${contentful.baseUrl}") String baseUrl,
-                     @Value("${contentful.token}") String token,
-                     @Value("${contentful.space}") String space,
-                     @Value("${contentful.environment}") String environment) {
+    ContentfulLibraryClient(RestClient.Builder builder,
+                            @Value("${contentful.baseUrl}") String baseUrl,
+                            @Value("${contentful.token}") String token,
+                            @Value("${contentful.space}") String space,
+                            @Value("${contentful.environment}") String environment) {
         this.client = builder.baseUrl(baseUrl).build();
         this.baseUrl = baseUrl;
         this.token = token;
@@ -33,7 +33,7 @@ public class ContentfulClient {
         this.environment = environment;
     }
 
-    public List<LibraryLink> fetchAllLibraryLinks() throws ContentfulConnectionException {
+    public List<LibraryLink> fetchAllLibraryLinks() throws ContentfulLibraryConnectionException {
         try {
             ContentfulEntries contentfulEntries =
                     client.get()
@@ -63,8 +63,8 @@ public class ContentfulClient {
             logger.atError()
                     .addKeyValue("status", exception.getStatusCode())
                     .addKeyValue("exceptionMessage", exception.getMessage())
-                    .log("Connection to Contentful failed.");
-            throw new ContentfulConnectionException("Connection to Contentful failed", exception);
+                    .log("Failed to fetch Library links from Contentful.");
+            throw new ContentfulLibraryConnectionException("Failed to fetch Library links from Contentful.", exception);
         }
     }
 

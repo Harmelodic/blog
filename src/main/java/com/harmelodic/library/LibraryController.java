@@ -25,7 +25,7 @@ public class LibraryController {
         try {
             return libraryService.fetchLibrary();
         } catch (FailedToFetchLibraryException exception) {
-            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Failed to fetch Library", exception);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to fetch Library", exception);
         }
     }
 }

@@ -16,18 +16,18 @@ import static org.mockito.Mockito.when;
 class LibraryServiceTest {
 
     @Mock
-    ContentfulClient contentfulClient;
+    ContentfulLibraryClient contentfulLibraryClient;
 
     @InjectMocks
     LibraryService libraryService;
 
     @Test
-    void fetchLibrarySuccess() throws FailedToFetchLibraryException, ContentfulConnectionException {
+    void fetchLibrarySuccess() throws FailedToFetchLibraryException, ContentfulLibraryConnectionException {
         List<LibraryLink> library = List.of(
                 new LibraryLink("Some Link thing", "https://example.com", "Example Category", "https://example.com/favicon.ico"),
                 new LibraryLink("Another Link thing", "https://another.com", "Example Category", "https://another.com/favicon.ico")
         );
-        when(contentfulClient.fetchAllLibraryLinks()).thenReturn(library);
+        when(contentfulLibraryClient.fetchAllLibraryLinks()).thenReturn(library);
 
         List<LibraryLink> retrievedLibrary = libraryService.fetchLibrary();
 
@@ -35,9 +35,9 @@ class LibraryServiceTest {
     }
 
     @Test
-    void fetchLibraryFail() throws ContentfulConnectionException {
-        when(contentfulClient.fetchAllLibraryLinks())
-                .thenThrow(new ContentfulConnectionException("Failed to fetch LibraryLinks", new Throwable()));
+    void fetchLibraryFail() throws ContentfulLibraryConnectionException {
+        when(contentfulLibraryClient.fetchAllLibraryLinks())
+                .thenThrow(new ContentfulLibraryConnectionException("Failed to fetch LibraryLinks", new Throwable()));
 
         assertThrows(FailedToFetchLibraryException.class, () -> libraryService.fetchLibrary());
     }
