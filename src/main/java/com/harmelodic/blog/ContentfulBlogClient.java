@@ -16,13 +16,12 @@ import java.util.List;
 @Component
 public class ContentfulBlogClient {
 
-    Logger logger = LoggerFactory.getLogger(ContentfulBlogClient.class);
+    private static final Logger logger = LoggerFactory.getLogger(ContentfulBlogClient.class);
 
-    RestClient client;
-    String baseUrl;
-    String token;
-    String space;
-    String environment;
+    private final RestClient client;
+    private final String token;
+    private final String space;
+    private final String environment;
 
     ContentfulBlogClient(RestClient.Builder builder,
                          @Value("${contentful.baseUrl}") String baseUrl,
@@ -30,7 +29,6 @@ public class ContentfulBlogClient {
                          @Value("${contentful.space}") String space,
                          @Value("${contentful.environment}") String environment) {
         this.client = builder.baseUrl(baseUrl).build();
-        this.baseUrl = baseUrl;
         this.token = token;
         this.space = space;
         this.environment = environment;
