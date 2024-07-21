@@ -8,5 +8,5 @@ mvn clean test
 
 # Run application locally
 export CONTENTFUL_TOKEN=xxxxx # replace with a valid Contentful Auth Token
-mvn clean spring-boot:run -D spring-boot.run.profiles=local
+mvn clean spring-boot:run # The spring-boot-maven-plugin is configured to use the `local` profile in the POM.
 ```
