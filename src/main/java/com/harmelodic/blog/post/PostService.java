@@ -19,7 +19,7 @@ public class PostService {
         try {
             return contentfulBlogClient.fetchAllPosts();
         } catch (ContentfulBlogConnectionException contentfulBlogConnectionException) {
-            throw new FailedToFetchPostsException("Failed to fetch posts.", contentfulBlogConnectionException);
+            throw new FailedToFetchPostsException(contentfulBlogConnectionException);
         }
     }
 

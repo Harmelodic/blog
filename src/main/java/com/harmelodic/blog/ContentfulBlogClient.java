@@ -129,7 +129,7 @@ public class ContentfulBlogClient {
                     .addKeyValue("status", exception.getStatusCode())
                     .addKeyValue("exceptionMessage", exception.getMessage())
                     .log("Failed to fetch categories from Contentful.");
-            throw new ContentfulBlogConnectionException("Failed to fetch categories from Contentful.", exception);
+            throw new ContentfulBlogConnectionException("Failed to fetch Tags from Contentful.", exception);
         }
     }
 

@@ -19,7 +19,7 @@ public class CategoryService {
         try {
             return contentfulBlogClient.fetchAllCategories();
         } catch (ContentfulBlogConnectionException e) {
-            throw new FailedToFetchCategoriesException("Failed to fetch Categories.", e);
+            throw new FailedToFetchCategoriesException(e);
         }
     }
 }

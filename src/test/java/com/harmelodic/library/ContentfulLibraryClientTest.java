@@ -31,6 +31,7 @@ class ContentfulLibraryClientTest {
     @Pact(consumer = SELF)
     public V4Pact fetchLibraryLinksWhenExist(PactDslWithProvider builder) throws IOException {
         try (InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("all-library-link-entries-response.json")) {
+            assert resourceAsStream != null;
             String response = new String(resourceAsStream.readAllBytes(), StandardCharsets.UTF_8);
 
             return builder
