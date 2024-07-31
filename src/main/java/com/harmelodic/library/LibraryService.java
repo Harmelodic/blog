@@ -16,8 +16,15 @@ public class LibraryService {
     List<LibraryLink> fetchLibrary() throws FailedToFetchLibraryException {
         try {
             return contentfulLibraryClient.fetchAllLibraryLinks();
-        } catch (ContentfulLibraryConnectionException exception) {
+        } catch (ContentfulLibraryClient.ContentfulLibraryConnectionException exception) {
             throw new FailedToFetchLibraryException("Failed to fetch Library Links", exception);
         }
     }
+
+    public static class FailedToFetchLibraryException extends Exception {
+        public FailedToFetchLibraryException(String message, Throwable throwable) {
+            super(message, throwable);
+        }
+    }
+
 }

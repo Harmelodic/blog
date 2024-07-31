@@ -169,4 +169,11 @@ public class ContentfulBlogClient {
             return null;
         }
     }
+
+
+    public static class ContentfulBlogConnectionException extends Exception {
+        public ContentfulBlogConnectionException(String message, Throwable throwable) {
+            super(message, throwable);
+        }
+    }
 }

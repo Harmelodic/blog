@@ -58,7 +58,7 @@ class BlogContentfulLibraryClientTest {
 
     @Test
     @PactTestFor(pactMethod = "fetchPostsWhenExist")
-    void testFetchPostsWhenExist(MockServer mockServer) throws ContentfulBlogConnectionException {
+    void testFetchPostsWhenExist(MockServer mockServer) throws ContentfulBlogClient.ContentfulBlogConnectionException {
         ContentfulBlogClient customerClient = new ContentfulBlogClient(RestClient.builder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
 
         List<Post> receivedPosts = customerClient.fetchAllPosts();
@@ -97,7 +97,7 @@ class BlogContentfulLibraryClientTest {
 
     @Test
     @PactTestFor(pactMethod = "fetchCategoriesWhenExist")
-    void testFetchCategoriesWhenExist(MockServer mockServer) throws ContentfulBlogConnectionException {
+    void testFetchCategoriesWhenExist(MockServer mockServer) throws ContentfulBlogClient.ContentfulBlogConnectionException {
         ContentfulBlogClient customerClient = new ContentfulBlogClient(RestClient.builder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
 
         List<Category> receivedCategories = customerClient.fetchAllCategories();

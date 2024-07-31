@@ -24,7 +24,7 @@ public class CategoryController {
     public List<Category> getAllCategories() {
         try {
             return categoryService.fetchAllCategories();
-        } catch (FailedToFetchCategoriesException exception) {
+        } catch (CategoryService.FailedToFetchCategoriesException exception) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to fetch Categories.", exception);
         }
     }

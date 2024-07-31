@@ -22,7 +22,7 @@ class LibraryServiceTest {
     LibraryService libraryService;
 
     @Test
-    void fetchLibrarySuccess() throws FailedToFetchLibraryException, ContentfulLibraryConnectionException {
+    void fetchLibrarySuccess() throws LibraryService.FailedToFetchLibraryException, ContentfulLibraryClient.ContentfulLibraryConnectionException {
         List<LibraryLink> library = List.of(
                 new LibraryLink("Some Link thing", "https://example.com", "Example Category", "https://example.com/favicon.ico"),
                 new LibraryLink("Another Link thing", "https://another.com", "Example Category", "https://another.com/favicon.ico")
@@ -35,10 +35,10 @@ class LibraryServiceTest {
     }
 
     @Test
-    void fetchLibraryFail() throws ContentfulLibraryConnectionException {
+    void fetchLibraryFail() throws ContentfulLibraryClient.ContentfulLibraryConnectionException {
         when(contentfulLibraryClient.fetchAllLibraryLinks())
-                .thenThrow(new ContentfulLibraryConnectionException("Failed to fetch LibraryLinks", new Throwable()));
+                .thenThrow(new ContentfulLibraryClient.ContentfulLibraryConnectionException("Failed to fetch LibraryLinks", new Throwable()));
 
-        assertThrows(FailedToFetchLibraryException.class, () -> libraryService.fetchLibrary());
+        assertThrows(LibraryService.FailedToFetchLibraryException.class, () -> libraryService.fetchLibrary());
     }
 }

@@ -1,7 +1,6 @@
 package com.harmelodic.blog.post;
 
 import com.harmelodic.blog.ContentfulBlogClient;
-import com.harmelodic.blog.ContentfulBlogConnectionException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,7 +23,7 @@ class PostServiceTest {
     PostService postService;
 
     @Test
-    void fetchAllPostsSuccess() throws ContentfulBlogConnectionException, FailedToFetchPostsException {
+    void fetchAllPostsSuccess() throws ContentfulBlogClient.ContentfulBlogConnectionException, PostService.FailedToFetchPostsException {
         List<Post> postList = List.of(
                 new Post("random-id", "Blog Title", "some content", List.of("anExampleTag")),
                 new Post("random-id2", "Blog Title 2", "some other content", List.of("anExampleTag"))
@@ -37,11 +36,11 @@ class PostServiceTest {
     }
 
     @Test
-    void fetchAllPostsFail() throws ContentfulBlogConnectionException {
+    void fetchAllPostsFail() throws ContentfulBlogClient.ContentfulBlogConnectionException {
         when(contentfulBlogClient.fetchAllPosts())
-                .thenThrow(new ContentfulBlogConnectionException("Failed to fetch Posts", new Throwable()));
+                .thenThrow(new ContentfulBlogClient.ContentfulBlogConnectionException("Failed to fetch Posts", new Throwable()));
 
-        assertThrows(FailedToFetchPostsException.class, () -> postService.fetchAllPosts());
+        assertThrows(PostService.FailedToFetchPostsException.class, () -> postService.fetchAllPosts());
     }
 
     @Test

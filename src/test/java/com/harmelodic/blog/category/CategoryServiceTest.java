@@ -1,7 +1,6 @@
 package com.harmelodic.blog.category;
 
 import com.harmelodic.blog.ContentfulBlogClient;
-import com.harmelodic.blog.ContentfulBlogConnectionException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,7 +23,7 @@ class CategoryServiceTest {
     CategoryService categoryService;
 
     @Test
-    void fetchAllCategoriesSuccess() throws ContentfulBlogConnectionException, FailedToFetchCategoriesException {
+    void fetchAllCategoriesSuccess() throws ContentfulBlogClient.ContentfulBlogConnectionException, CategoryService.FailedToFetchCategoriesException {
         List<Category> categories = List.of(
                 new Category("something", "Something"),
                 new Category("somethingElse", "Something Else"),
@@ -39,10 +38,10 @@ class CategoryServiceTest {
     }
 
     @Test
-    void fetchAllCategoriesFail() throws ContentfulBlogConnectionException {
+    void fetchAllCategoriesFail() throws ContentfulBlogClient.ContentfulBlogConnectionException {
         when(contentfulBlogClient.fetchAllCategories())
-                .thenThrow(new ContentfulBlogConnectionException("Failed to fetch Categories", new Throwable()));
+                .thenThrow(new ContentfulBlogClient.ContentfulBlogConnectionException("Failed to fetch Categories", new Throwable()));
 
-        assertThrows(FailedToFetchCategoriesException.class, () -> categoryService.fetchAllCategories());
+        assertThrows(CategoryService.FailedToFetchCategoriesException.class, () -> categoryService.fetchAllCategories());
     }
 }

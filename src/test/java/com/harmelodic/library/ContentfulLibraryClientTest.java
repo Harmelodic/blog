@@ -54,7 +54,7 @@ class ContentfulLibraryClientTest {
 
     @Test
     @PactTestFor(pactMethod = "fetchLibraryLinksWhenExist")
-    void testFetchLibraryLinksWhenExist(MockServer mockServer) throws ContentfulLibraryConnectionException {
+    void testFetchLibraryLinksWhenExist(MockServer mockServer) throws ContentfulLibraryClient.ContentfulLibraryConnectionException {
         ContentfulLibraryClient customerClient = new ContentfulLibraryClient(RestClient.builder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
 
         List<LibraryLink> receivedLibraryLinks = customerClient.fetchAllLibraryLinks();

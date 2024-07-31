@@ -24,7 +24,7 @@ public class LibraryController {
     public List<LibraryLink> getLibrary() {
         try {
             return libraryService.fetchLibrary();
-        } catch (FailedToFetchLibraryException exception) {
+        } catch (LibraryService.FailedToFetchLibraryException exception) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to fetch Library", exception);
         }
     }

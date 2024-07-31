@@ -25,10 +25,8 @@ public class PostController {
     public List<Post> getAllPosts() {
         try {
             return postService.fetchAllPosts();
-        } catch (FailedToFetchPostsException failedToFetchPostsException) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Failed to fetch Posts.",
-                    failedToFetchPostsException);
+        } catch (PostService.FailedToFetchPostsException exception) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to fetch Posts.", exception);
         }
     }
 

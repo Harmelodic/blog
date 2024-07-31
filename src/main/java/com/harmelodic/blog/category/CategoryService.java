@@ -1,7 +1,6 @@
 package com.harmelodic.blog.category;
 
 import com.harmelodic.blog.ContentfulBlogClient;
-import com.harmelodic.blog.ContentfulBlogConnectionException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +17,14 @@ public class CategoryService {
     public List<Category> fetchAllCategories() throws FailedToFetchCategoriesException {
         try {
             return contentfulBlogClient.fetchAllCategories();
-        } catch (ContentfulBlogConnectionException e) {
-            throw new FailedToFetchCategoriesException(e);
+        } catch (ContentfulBlogClient.ContentfulBlogConnectionException exception) {
+            throw new FailedToFetchCategoriesException(exception);
+        }
+    }
+
+    public static class FailedToFetchCategoriesException extends Exception {
+        FailedToFetchCategoriesException(Throwable throwable) {
+            super("Failed to fetch Categories.", throwable);
         }
     }
 }
