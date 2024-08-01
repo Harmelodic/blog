@@ -67,15 +67,13 @@ public class ContentfulLibraryClient {
     }
 
     record ContentfulEntries(List<ContentfulEntry> items) {
-    }
-
-    record ContentfulEntry(ContentfulEntryFields fields) {
-    }
-
-    record ContentfulEntryFields(String title,
-                                 String href,
-                                 String category,
-                                 String favicon) {
+        record ContentfulEntry(ContentfulEntryFields fields) {
+            record ContentfulEntryFields(String title,
+                                         String href,
+                                         String category,
+                                         String favicon) {
+            }
+        }
     }
 
     public static class ContentfulLibraryConnectionException extends Exception {
