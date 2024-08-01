@@ -1,7 +1,5 @@
 package com.harmelodic.blog;
 
-import com.harmelodic.blog.category.Category;
-import com.harmelodic.blog.post.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +13,6 @@ import java.util.List;
 
 @Component
 public class ContentfulBlogClient {
-
     private static final Logger logger = LoggerFactory.getLogger(ContentfulBlogClient.class);
 
     private final RestClient client;
@@ -81,30 +78,27 @@ public class ContentfulBlogClient {
     }
 
     record ContentfulEntries(List<ContentfulEntry> items) {
+        record ContentfulEntry(ContentfulSys sys,
+                               ContentfulEntryFields fields,
+                               ContentfulEntryMetadata metadata) {
+            record ContentfulSys(String id) {
+            }
+
+            record ContentfulEntryFields(String id,
+                                         String title,
+                                         String publishedOn,
+                                         String content) {
+            }
+
+            record ContentfulEntryMetadata(List<ContentfulEntryMetadataTag> tags) {
+                record ContentfulEntryMetadataTag(ContentfulEntryMetadataTagSys sys) {
+                    record ContentfulEntryMetadataTagSys(String id) {
+                    }
+                }
+            }
+        }
     }
 
-    record ContentfulEntry(ContentfulSys sys,
-                           ContentfulEntryFields fields,
-                           ContentfulEntryMetadata metadata) {
-    }
-
-    record ContentfulSys(String id) {
-    }
-
-    record ContentfulEntryFields(String id,
-                                 String title,
-                                 String publishedOn,
-                                 String content) {
-    }
-
-    record ContentfulEntryMetadata(List<ContentfulEntryMetadataTag> tags) {
-    }
-
-    record ContentfulEntryMetadataTag(ContentfulEntryMetadataTagSys sys) {
-    }
-
-    record ContentfulEntryMetadataTagSys(String id) {
-    }
 
     public List<Category> fetchAllCategories() throws ContentfulBlogConnectionException {
         try {
@@ -134,13 +128,10 @@ public class ContentfulBlogClient {
     }
 
     record ContentfulTags(List<ContentfulTag> items) {
-    }
-
-    record ContentfulTag(String name,
-                         ContentfulTagSys sys) {
-    }
-
-    record ContentfulTagSys(String id) {
+        record ContentfulTag(String name, ContentfulTagSys sys) {
+            record ContentfulTagSys(String id) {
+            }
+        }
     }
 
     public Post fetchPostById(String id) {
@@ -156,7 +147,7 @@ public class ContentfulBlogClient {
                         .body(ContentfulEntries.class);
 
         if (contentfulEntries != null && contentfulEntries.items().size() == 1) {
-            ContentfulEntry contentfulEntry = contentfulEntries.items().getFirst();
+            ContentfulEntries.ContentfulEntry contentfulEntry = contentfulEntries.items().getFirst();
             return new Post(contentfulEntry.sys().id(),
                     contentfulEntry.fields().title(),
                     contentfulEntry.fields().content(),
@@ -169,7 +160,6 @@ public class ContentfulBlogClient {
             return null;
         }
     }
-
 
     public static class ContentfulBlogConnectionException extends Exception {
         public ContentfulBlogConnectionException(String message, Throwable throwable) {

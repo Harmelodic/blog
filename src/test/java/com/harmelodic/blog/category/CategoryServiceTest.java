@@ -1,5 +1,7 @@
 package com.harmelodic.blog.category;
 
+import com.harmelodic.blog.Category;
+import com.harmelodic.blog.CategoryService;
 import com.harmelodic.blog.ContentfulBlogClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

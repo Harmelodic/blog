@@ -1,4 +1,4 @@
-package com.harmelodic.blog.post;
+package com.harmelodic.blog;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;

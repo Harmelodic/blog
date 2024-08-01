@@ -1,4 +1,4 @@
-package com.harmelodic.blog.post;
+package com.harmelodic.blog;
 
 import java.util.List;
 
