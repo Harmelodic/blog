@@ -37,19 +37,6 @@
                 <scope>import</scope>
                 <!-- Bill of Materials for managing JUnit dependencies -->
             </dependency>
-            <dependency>
-                <groupId>au.com.dius.pact.consumer</groupId>
-                <artifactId>junit5</artifactId>
-                <version>4.6.11</version>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
-                <!-- Required for PACT Contract testing -->
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -122,6 +109,7 @@
         <dependency>
             <groupId>au.com.dius.pact.consumer</groupId>
             <artifactId>junit5</artifactId>
+            <version>4.6.11</version>
             <scope>test</scope>
             <!-- Required for PACT Contract testing -->
         </dependency>
