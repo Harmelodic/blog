@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
@@ -25,7 +26,7 @@ class CategoryServiceTest {
     CategoryService categoryService;
 
     @Test
-    void fetchAllCategoriesSuccess() throws ContentfulBlogClient.ContentfulBlogConnectionException, CategoryService.FailedToFetchCategoriesException {
+    void fetchAllCategoriesSuccess() throws ContentfulBlogClient.ContentfulBlogConnectionException {
         List<Category> categories = List.of(
                 new Category("something", "Something"),
                 new Category("somethingElse", "Something Else"),
@@ -34,7 +35,7 @@ class CategoryServiceTest {
 
         when(contentfulBlogClient.fetchAllCategories()).thenReturn(categories);
 
-        List<Category> retrievedCategories = categoryService.fetchAllCategories();
+        List<Category> retrievedCategories = assertDoesNotThrow(categoryService::fetchAllCategories);
 
         assertEquals(categories, retrievedCategories);
     }
@@ -44,6 +45,6 @@ class CategoryServiceTest {
         when(contentfulBlogClient.fetchAllCategories())
                 .thenThrow(new ContentfulBlogClient.ContentfulBlogConnectionException("Failed to fetch Categories", new Throwable()));
 
-        assertThrows(CategoryService.FailedToFetchCategoriesException.class, () -> categoryService.fetchAllCategories());
+        assertThrows(CategoryService.FailedToFetchCategoriesException.class, categoryService::fetchAllCategories);
     }
 }

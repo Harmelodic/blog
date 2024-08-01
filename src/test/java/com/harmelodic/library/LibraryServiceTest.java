@@ -8,6 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
@@ -22,14 +23,14 @@ class LibraryServiceTest {
     LibraryService libraryService;
 
     @Test
-    void fetchLibrarySuccess() throws LibraryService.FailedToFetchLibraryException, ContentfulLibraryClient.ContentfulLibraryConnectionException {
+    void fetchLibrarySuccess() throws ContentfulLibraryClient.ContentfulLibraryConnectionException {
         List<LibraryLink> library = List.of(
                 new LibraryLink("Some Link thing", "https://example.com", "Example Category", "https://example.com/favicon.ico"),
                 new LibraryLink("Another Link thing", "https://another.com", "Example Category", "https://another.com/favicon.ico")
         );
         when(contentfulLibraryClient.fetchAllLibraryLinks()).thenReturn(library);
 
-        List<LibraryLink> retrievedLibrary = libraryService.fetchLibrary();
+        List<LibraryLink> retrievedLibrary = assertDoesNotThrow(libraryService::fetchLibrary);
 
         assertEquals(library, retrievedLibrary);
     }
@@ -39,6 +40,6 @@ class LibraryServiceTest {
         when(contentfulLibraryClient.fetchAllLibraryLinks())
                 .thenThrow(new ContentfulLibraryClient.ContentfulLibraryConnectionException("Failed to fetch LibraryLinks", new Throwable()));
 
-        assertThrows(LibraryService.FailedToFetchLibraryException.class, () -> libraryService.fetchLibrary());
+        assertThrows(LibraryService.FailedToFetchLibraryException.class, libraryService::fetchLibrary);
     }
 }

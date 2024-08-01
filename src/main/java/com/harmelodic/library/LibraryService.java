@@ -26,5 +26,4 @@ public class LibraryService {
             super(message, throwable);
         }
     }
-
 }

@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(PactConsumerTestExt.class)
@@ -54,10 +55,10 @@ class ContentfulLibraryClientTest {
 
     @Test
     @PactTestFor(pactMethod = "fetchLibraryLinksWhenExist")
-    void testFetchLibraryLinksWhenExist(MockServer mockServer) throws ContentfulLibraryClient.ContentfulLibraryConnectionException {
+    void testFetchLibraryLinksWhenExist(MockServer mockServer) {
         ContentfulLibraryClient customerClient = new ContentfulLibraryClient(RestClient.builder(), mockServer.getUrl(), TOKEN, SPACE, ENVIRONMENT);
 
-        List<LibraryLink> receivedLibraryLinks = customerClient.fetchAllLibraryLinks();
+        List<LibraryLink> receivedLibraryLinks = assertDoesNotThrow(customerClient::fetchAllLibraryLinks);
 
         List<LibraryLink> expected = List.of(
                 new LibraryLink(
