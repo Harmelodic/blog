@@ -28,3 +28,7 @@ jobs:
           --no-transfer-progress
           --define image.repository=europe-north1-docker.pkg.dev/personal-artifacts-353012/harmelodic/blog
           --define image.tag=${GITHUB_SHA:-latest}
+          --define pact.broker.url=https://pact.harmelodic.com
+          --define pact.broker.username=pact-broker-user
+          --define pact.broker.password=${{ secrets.PACT_BROKER_PASSWORD }}
+        # pact.broker.* used for publishing Consumer PACTs

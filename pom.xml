@@ -111,7 +111,7 @@
             <artifactId>junit5</artifactId>
             <version>4.6.11</version>
             <scope>test</scope>
-            <!-- Required for PACT Contract testing -->
+            <!-- Required for PACT testing as a Consumer -->
         </dependency>
     </dependencies>
 
@@ -146,6 +146,24 @@
                     <systemPropertyVariables>
                         <pact_do_not_track>true</pact_do_not_track>
                     </systemPropertyVariables>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <!-- Required for publishing PACTs -->
+                <groupId>au.com.dius.pact.provider</groupId>
+                <artifactId>maven</artifactId>
+                <version>4.6.11</version>
+                <executions>
+                    <execution>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>publish</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <projectVersion>${image.tag}</projectVersion>
                 </configuration>
             </plugin>
 
