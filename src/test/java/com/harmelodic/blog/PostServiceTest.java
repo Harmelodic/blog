@@ -1,8 +1,5 @@
-package com.harmelodic.blog.post;
+package com.harmelodic.blog;
 
-import com.harmelodic.blog.ContentfulBlogClient;
-import com.harmelodic.blog.Post;
-import com.harmelodic.blog.PostService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

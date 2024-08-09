@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/post")
 @CrossOrigin
-public class PostController {
+class PostController {
 
     private final PostService postService;
 
@@ -22,7 +22,7 @@ public class PostController {
     }
 
     @GetMapping
-    public List<Post> getAllPosts() {
+    List<Post> getAllPosts() {
         try {
             return postService.fetchAllPosts();
         } catch (PostService.FailedToFetchPostsException exception) {
@@ -31,7 +31,7 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public Post getPostById(@PathVariable("id") String id) {
+    Post getPostById(@PathVariable("id") String id) {
         return postService.fetchPostById(id);
     }
 }

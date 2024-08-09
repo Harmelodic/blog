@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-public class ContentfulLibraryClient {
+class ContentfulLibraryClient {
     private static final Logger logger = LoggerFactory.getLogger(ContentfulLibraryClient.class);
 
     private final RestClient client;
@@ -31,7 +31,7 @@ public class ContentfulLibraryClient {
         this.environment = environment;
     }
 
-    public List<LibraryLink> fetchAllLibraryLinks() throws ContentfulLibraryConnectionException {
+    List<LibraryLink> fetchAllLibraryLinks() throws ContentfulLibraryConnectionException {
         try {
             ContentfulEntries contentfulEntries =
                     client.get()
@@ -76,7 +76,7 @@ public class ContentfulLibraryClient {
         }
     }
 
-    public static class ContentfulLibraryConnectionException extends Exception {
+    static class ContentfulLibraryConnectionException extends Exception {
         ContentfulLibraryConnectionException(String message, Throwable throwable) {
             super(message, throwable);
         }

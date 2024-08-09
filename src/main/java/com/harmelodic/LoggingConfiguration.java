@@ -5,10 +5,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.ServletContextRequestLoggingFilter;
 
 @Configuration
-public class LoggingConfiguration {
+class LoggingConfiguration {
 
     @Bean
-    public ServletContextRequestLoggingFilter servletContextRequestLoggingFilter() {
+    ServletContextRequestLoggingFilter servletContextRequestLoggingFilter() {
         ServletContextRequestLoggingFilter filter = new ServletContextRequestLoggingFilter();
         filter.setIncludeHeaders(true);
         filter.setIncludeQueryString(true);

@@ -5,11 +5,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class LibraryService {
+class LibraryService {
 
     private final ContentfulLibraryClient contentfulLibraryClient;
 
-    public LibraryService(ContentfulLibraryClient contentfulLibraryClient) {
+    LibraryService(ContentfulLibraryClient contentfulLibraryClient) {
         this.contentfulLibraryClient = contentfulLibraryClient;
     }
 
@@ -21,8 +21,8 @@ public class LibraryService {
         }
     }
 
-    public static class FailedToFetchLibraryException extends Exception {
-        public FailedToFetchLibraryException(String message, Throwable throwable) {
+    static class FailedToFetchLibraryException extends Exception {
+        FailedToFetchLibraryException(String message, Throwable throwable) {
             super(message, throwable);
         }
     }

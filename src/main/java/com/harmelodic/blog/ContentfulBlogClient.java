@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-public class ContentfulBlogClient {
+class ContentfulBlogClient {
     private static final Logger logger = LoggerFactory.getLogger(ContentfulBlogClient.class);
 
     private final RestClient client;
@@ -38,7 +38,7 @@ public class ContentfulBlogClient {
                 .log("Contentful Client configured");
     }
 
-    public List<Post> fetchAllPosts() throws ContentfulBlogConnectionException {
+    List<Post> fetchAllPosts() throws ContentfulBlogConnectionException {
         try {
             ContentfulEntries contentfulEntries =
                     client.get()
@@ -100,7 +100,7 @@ public class ContentfulBlogClient {
     }
 
 
-    public List<Category> fetchAllCategories() throws ContentfulBlogConnectionException {
+    List<Category> fetchAllCategories() throws ContentfulBlogConnectionException {
         try {
             ContentfulTags contentfulTags = client.get()
                     .uri(uriBuilder -> uriBuilder
@@ -134,7 +134,7 @@ public class ContentfulBlogClient {
         }
     }
 
-    public Post fetchPostById(String id) {
+    Post fetchPostById(String id) {
         ContentfulEntries contentfulEntries =
                 client.get()
                         .uri(uriBuilder -> uriBuilder
@@ -161,8 +161,8 @@ public class ContentfulBlogClient {
         }
     }
 
-    public static class ContentfulBlogConnectionException extends Exception {
-        public ContentfulBlogConnectionException(String message, Throwable throwable) {
+    static class ContentfulBlogConnectionException extends Exception {
+        ContentfulBlogConnectionException(String message, Throwable throwable) {
             super(message, throwable);
         }
     }

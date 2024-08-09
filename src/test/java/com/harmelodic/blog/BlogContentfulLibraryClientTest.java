@@ -30,7 +30,7 @@ class BlogContentfulLibraryClientTest {
     private static final String EXAMPLE_ID = "1234abcd1234abcd123abc";
 
     @Pact(consumer = SELF)
-    public V4Pact fetchPostsWhenExist(PactDslWithProvider builder) throws IOException {
+    V4Pact fetchPostsWhenExist(PactDslWithProvider builder) throws IOException {
         try (InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("all-blog-post-entries-response.json")) {
             assert resourceAsStream != null;
             String response = new String(resourceAsStream.readAllBytes(), StandardCharsets.UTF_8);
@@ -72,7 +72,7 @@ class BlogContentfulLibraryClientTest {
     }
 
     @Pact(consumer = SELF)
-    public V4Pact fetchCategoriesWhenExist(PactDslWithProvider builder) throws IOException {
+    V4Pact fetchCategoriesWhenExist(PactDslWithProvider builder) throws IOException {
         try (InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("tags-response.json")) {
             assert resourceAsStream != null;
             String response = new String(resourceAsStream.readAllBytes(), StandardCharsets.UTF_8);
@@ -110,7 +110,7 @@ class BlogContentfulLibraryClientTest {
 
 
     @Pact(consumer = SELF)
-    public V4Pact fetchPostByIdWhenExist(PactDslWithProvider builder) throws IOException {
+    V4Pact fetchPostByIdWhenExist(PactDslWithProvider builder) throws IOException {
         try (InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("single-entry-response.json")) {
             assert resourceAsStream != null;
             String response = new String(resourceAsStream.readAllBytes(), StandardCharsets.UTF_8);

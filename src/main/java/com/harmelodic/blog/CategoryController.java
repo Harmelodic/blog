@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/category")
 @CrossOrigin
-public class CategoryController {
+class CategoryController {
 
     private final CategoryService categoryService;
 
@@ -21,7 +21,7 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<Category> getAllCategories() {
+    List<Category> getAllCategories() {
         try {
             return categoryService.fetchAllCategories();
         } catch (CategoryService.FailedToFetchCategoriesException exception) {

@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/library")
 @CrossOrigin
-public class LibraryController {
+class LibraryController {
 
     private final LibraryService libraryService;
 
@@ -21,7 +21,7 @@ public class LibraryController {
     }
 
     @GetMapping
-    public List<LibraryLink> getLibrary() {
+    List<LibraryLink> getLibrary() {
         try {
             return libraryService.fetchLibrary();
         } catch (LibraryService.FailedToFetchLibraryException exception) {

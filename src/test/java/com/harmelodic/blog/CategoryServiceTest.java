@@ -1,8 +1,5 @@
-package com.harmelodic.blog.category;
+package com.harmelodic.blog;
 
-import com.harmelodic.blog.Category;
-import com.harmelodic.blog.CategoryService;
-import com.harmelodic.blog.ContentfulBlogClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

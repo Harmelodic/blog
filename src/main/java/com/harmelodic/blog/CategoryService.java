@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CategoryService {
+class CategoryService {
 
     private final ContentfulBlogClient contentfulBlogClient;
 
@@ -13,7 +13,7 @@ public class CategoryService {
         this.contentfulBlogClient = contentfulBlogClient;
     }
 
-    public List<Category> fetchAllCategories() throws FailedToFetchCategoriesException {
+    List<Category> fetchAllCategories() throws FailedToFetchCategoriesException {
         try {
             return contentfulBlogClient.fetchAllCategories();
         } catch (ContentfulBlogClient.ContentfulBlogConnectionException exception) {
@@ -21,7 +21,7 @@ public class CategoryService {
         }
     }
 
-    public static class FailedToFetchCategoriesException extends Exception {
+    static class FailedToFetchCategoriesException extends Exception {
         FailedToFetchCategoriesException(Throwable throwable) {
             super("Failed to fetch Categories.", throwable);
         }

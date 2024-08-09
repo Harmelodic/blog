@@ -1,5 +1,5 @@
 package com.harmelodic.blog;
 
-public record Category(String id,
-                       String name) {
+record Category(String id,
+                String name) {
 }
