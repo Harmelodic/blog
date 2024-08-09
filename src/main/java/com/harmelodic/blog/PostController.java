@@ -21,10 +21,19 @@ class PostController {
         this.postService = postService;
     }
 
+    record PostV1(String id,
+                  String title,
+                  String content,
+                  List<String> categories) {
+    }
+
     @GetMapping
-    List<Post> getAllPosts() {
+    List<PostV1> getAllPosts() {
         try {
-            return postService.fetchAllPosts();
+            return postService.fetchAllPosts()
+                    .stream()
+                    .map(post -> new PostV1(post.id(), post.title(), post.content(), post.categories()))
+                    .toList();
         } catch (PostService.FailedToFetchPostsException exception) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to fetch Posts.", exception);
         }

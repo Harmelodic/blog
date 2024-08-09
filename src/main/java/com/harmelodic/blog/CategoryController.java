@@ -20,10 +20,17 @@ class CategoryController {
         this.categoryService = categoryService;
     }
 
+    record CategoryV1(String id,
+                      String name) {
+    }
+
     @GetMapping
-    List<Category> getAllCategories() {
+    List<CategoryV1> getAllCategories() {
         try {
-            return categoryService.fetchAllCategories();
+            return categoryService.fetchAllCategories()
+                    .stream()
+                    .map(category -> new CategoryV1(category.id(), category.name()))
+                    .toList();
         } catch (CategoryService.FailedToFetchCategoriesException exception) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to fetch Categories.", exception);
         }
