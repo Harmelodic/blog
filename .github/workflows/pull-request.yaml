@@ -14,5 +14,5 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 22
+          java-version: 24
       - run: mvn verify --no-transfer-progress
