@@ -7,7 +7,7 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  maven:
+  maven-deploy:
     permissions:
       contents: 'read'
       id-token: 'write'
