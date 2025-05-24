@@ -251,7 +251,7 @@
                 <!-- Required for running `mvn spring-boot:run` locally -->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.4.6</version>
+                <version>3.5.0</version>
                 <configuration>
                     <profiles>local</profiles>
                 </configuration>
