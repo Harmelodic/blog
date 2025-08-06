@@ -77,7 +77,7 @@
         <dependency>
             <groupId>com.contentful.java</groupId>
             <artifactId>java-sdk</artifactId>
-            <version>10.5.23</version>
+            <version>10.5.24</version>
             <!-- Required for Contentful integration -->
         </dependency>
 
