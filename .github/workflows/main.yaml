@@ -9,10 +9,10 @@ on:
 
 jobs:
   verify-github-workflows:
-    uses: harmelodic/workflows/.github/workflows/verify-github-workflows.yaml@efebb915210e5e4fbb36910baab02fe951282e4c
+    uses: harmelodic/workflows/.github/workflows/verify-github-workflows.yaml@541e2964bc269db532b73d02671363f55c63d2de
 
   build-java-container-image:
-    uses: harmelodic/workflows/.github/workflows/build-java-container-image.yaml@efebb915210e5e4fbb36910baab02fe951282e4c
+    uses: harmelodic/workflows/.github/workflows/build-java-container-image.yaml@541e2964bc269db532b73d02671363f55c63d2de
     with:
       image: europe-north1-docker.pkg.dev/personal-artifacts-353012/harmelodic/blog
     secrets: inherit
