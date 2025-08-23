@@ -11,7 +11,8 @@ jobs:
   verify-github-workflows:
     uses: harmelodic/workflows/.github/workflows/verify-github-workflows.yaml@d8c3ce35546b8b035d333149dea72ab3fac2ab83
 
-  verify-java-project:
+  build-java-container-image:
     uses: harmelodic/workflows/.github/workflows/build-java-container-image.yaml@d8c3ce35546b8b035d333149dea72ab3fac2ab83
     with:
       image: europe-north1-docker.pkg.dev/personal-artifacts-353012/harmelodic/blog
+    secrets: inherit
